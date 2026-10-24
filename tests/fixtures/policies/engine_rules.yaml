@@ -1,0 +1,57 @@
+# TEST FIXTURE for tests/unit/evaluators/test_policy_engine.py — exercises every rule kind and condition of the policy
+# engine. It is NOT the KYC policy and judges nothing: the real rules (R1–R3, P1–P3, F1–F4, A1, D1–D10, …) are written
+# by the QE Lead in projects/kyc_onboarding/policies/kyc_individual_v1.yaml. Rule IDs here start with T- on purpose.
+
+policy_id: engine_test
+version: t1
+owner: evalkit tests
+source: synthetic rules for engine tests
+rules:
+  - id: T-REQ
+    kind: required
+    before: create_customer_record
+    requires: [sanctions_screen, pep_check, {tool: verify_pan, result: {path: status, equals: VALID}}]
+  - id: T-PREC
+    kind: precedence
+    before: compute_risk_score
+    requires: [verify_pan]
+  - id: T-FORB
+    kind: forbidden
+    call: create_customer_record
+    when: {output: {agent: screening, path: any_hit, equals: true}}
+  - id: T-IMPL
+    kind: implies
+    metric: BF-2
+    when: {output: {agent: risk, path: tier, equals: HIGH}}
+    expect: {called: escalate_to_edd}
+  - id: T-ALLOW
+    kind: allow_list
+  - id: T-TOKEN
+    kind: approval_token
+    call: create_customer_record
+    arg: approval_token
+  - id: T-SLICE
+    kind: slice_isolation
+  - id: T-LIMIT
+    kind: limit
+    max_attempts: 3
+    max_delegations: 3
+    max_steps: 25
+  - id: T-VER
+    kind: implies
+    metric: AG-5
+    agent: risk
+    expect: {result: {tool: compute_risk_score, path: policy_version, equals: v3, every: true}}
+  - id: T-FAIL
+    kind: implies
+    severity: S1
+    metric: TU-5
+    agent: identity
+    when: {failed: verify_pan}
+    expect: {not: {output: {agent: identity, path: pan_status, in: [VALID, INVALID]}}}
+  - id: T-REPLY
+    kind: implies
+    metric: BF-4
+    severity: S2
+    when: {user: {matches: 'are you (a )?(human|bot|robot)'}}
+    expect: {reply: {matches: '\bAI\b|assistant'}}

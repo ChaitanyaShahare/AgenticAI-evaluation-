@@ -1,0 +1,25 @@
+# LLM judges (WP7). Advisory until calibrated against both testers (configs/gates.yaml › judges: kappa >= 0.6 and
+# >= 85% agreement per metric). Judges are off in smoke and gate runs and on in full runs (configs/eval.yaml).
+
+version: 1
+model: claude-opus-5-5            # must equal configs/eval.yaml › models.judge (a different tier from the agents)
+effort: high
+max_tokens: 4000
+rubric_version: r1                # part of the cache key: changing a rubric or its anchors re-judges every trace
+cache_dir: judge_cache            # inside the runs folder (EVALKIT_RUNS_DIR), so it moves out of Dropbox with the runs
+
+metrics:                          # anchored 0–3 (SOP §3.9; rubrics in evalkit/evaluators/judges/). Step efficiency is deterministic (TR-6).
+  - id: TR-8.task
+    name: Task completion
+    description: the goal is met and the end state and the final message agree
+  - id: TR-8.plan
+    name: Plan adherence
+    description: the agents follow the expected order of controls; no skipped or invented steps
+  - id: BF-4.explanation
+    name: Customer explanation
+    description: the reply states the outcome and next steps clearly, gives no advice and discloses nothing internal
+
+pricing:                          # USD per million tokens — fill from the current price list before the first judged run
+  input_per_mtok: null
+  output_per_mtok: null
+  checked_on: null

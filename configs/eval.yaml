@@ -1,0 +1,67 @@
+# Global run configuration (SOP §4.4, Agent Requirement sheet v0.3 rows 29 and 38).
+# Every run records these values in RunMeta; changing any of them is a full-regression trigger (SOP §3.14).
+
+version: 1
+
+# ---- models per role (IDs are configuration, never code; pinned per environment)
+models:
+  supervisor: claude-sonnet-5-5
+  specialist: claude-haiku-5-5        # doc_extraction, identity, screening, risk
+  judge: claude-opus-5-5              # different tier from the agents to reduce same-model bias
+# No sampling parameters: temperature / top_p / top_k are rejected by the current Claude API (all models, since 2026-10-21).
+# Determinism comes from the harness instead: deterministic mocks, fixed test clock, deterministic contract builders,
+# pinned effort per role, k = 3 trials with pass^k, and flake reporting.
+effort:                               # output_config.effort — pinned, never left to model defaults (which differ by model)
+  supervisor: medium
+  specialist: low
+  judge: high
+max_tokens: 16000
+refusal_fallback: false               # a server-side fallback would silently swap models mid-run; a refusal is recorded and fails closed instead
+prompt_caching: true
+max_steps_per_run: 25                 # LIMIT-BOUNCE: ≤ 25 steps per run
+retry_limit: 2                        # LIMIT-RETRY: ≤ 2 retries per tool call (max 3 attempts)
+max_bounces_per_specialist: 2
+
+# ---- determinism (requirement sheet row 38)
+determinism:
+  as_of: "2026-11-02"                 # test clock injected into every tool (document expiry, bill age)
+  seed: 42
+  lists_version: SYN-2026-10
+  risk_policy_version: v3             # VER-1: the only source of the policy version
+
+# ---- trials: k per severity (S1 cases are run k times and must pass every trial)
+trials:
+  S1: 3
+  S2: 1
+  S3: 1
+
+# ---- run modes (catalogue › Coverage › Run sets)
+run_modes:
+  smoke:
+    select: {run_set: smoke}          # 10 golden cases
+    trials: 1                         # fast feedback; S1 goldens get k = 3 in gate
+    judges: false
+    target_minutes: 5
+  gate:
+    select: {run_set: gate}           # all 70 S1 cases
+    trials: per_severity
+    judges: false
+  full:
+    select: {run_set: full}           # all 110 cases
+    trials: per_severity
+    judges: true
+
+# ---- execution
+execution:
+  max_workers: 4                      # pytest-xdist worker cap; lower it on HTTP 429
+  runs_dir: runs                      # recommended: a folder outside Dropbox (override with EVALKIT_RUNS_DIR)
+
+# ---- cost control (real figures come from runs/<id>/cost.json after the first run on D7)
+budget:
+  monthly_limit_inr: null             # set before the first LLM run (requirement sheet row 13: ₹__ / month)
+  alert_at: [0.5, 0.8]
+  usd_to_inr: null                    # exchange rate for the monthly budget
+  pricing:                            # USD per million tokens — fill from the current price list (never guessed)
+    claude-sonnet-5-5: {input: null, output: null, cache_read: null, cache_write: null}
+    claude-haiku-5-5: {input: null, output: null, cache_read: null, cache_write: null}
+    claude-opus-5-5: {input: null, output: null, cache_read: null, cache_write: null}

@@ -1,0 +1,79 @@
+{
+  "name": "escalate_to_edd",
+  "description": "Open an enhanced-due-diligence case for compliance review (any screening hit or HIGH risk).",
+  "x-agent": "supervisor",
+  "x-tool-class": "write",
+  "x-fault-modes": [
+    "HTTP 500"
+  ],
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "application_id": {
+        "type": "string",
+        "pattern": "^APL-[0-9A-Za-z]+$"
+      },
+      "reason_codes": {
+        "type": "array",
+        "items": {
+          "enum": [
+            "SCREENING_HIT",
+            "PEP_HIT",
+            "HIGH_RISK",
+            "DOC_MISSING",
+            "DOC_LOW_QUALITY",
+            "DOC_EXPIRED",
+            "NAME_INCONSISTENT",
+            "ID_MISMATCH",
+            "PAN_INVALID",
+            "OUT_OF_SCOPE_CUSTOMER_TYPE",
+            "SYS_UNAVAILABLE",
+            "APPROVER_DENIED",
+            "APPROVAL_TIMEOUT",
+            "INFO_MISSING",
+            "RECORD_CREATION_FAILED"
+          ]
+        },
+        "uniqueItems": true,
+        "description": "Reason codes from decision table D1–D10",
+        "minItems": 1
+      }
+    },
+    "required": [
+      "application_id",
+      "reason_codes"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "oneOf": [
+      {
+        "type": "object",
+        "properties": {
+          "edd_case_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "edd_case_id"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "details": {}
+        },
+        "description": "Business or validation error"
+      }
+    ]
+  }
+}

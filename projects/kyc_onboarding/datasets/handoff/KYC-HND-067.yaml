@@ -1,0 +1,41 @@
+# KYC-HND-067 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 77). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-HND-067
+title: Corporate applicant → corporate stub, no individual path
+level: L2
+primary_agent: SUP
+agents_exercised: SUP
+pattern: Hand-off / routing (L2)
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: D6
+applicant: APP-067
+documents: []
+customer_turns: '"I want to open a current account for my company, Sharma Textiles Pvt Ltd."'
+mocks: —
+fixtures: []
+approver: n/a
+expected_trajectory: route_to_corporate_stub → finalize_application(REJECTED) → reply  [RT-09]
+reference: [RT-09]
+match_mode: strict
+required_tools: route_to_corporate_stub, finalize_application
+forbidden_tools: transfer_to_doc_extraction, transfer_to_identity, transfer_to_screening, transfer_to_risk, create_customer_record
+argument_expectations: —
+expected_outcome: applications.status = REJECTED; record_id NULL; reason_codes = [OUT_OF_SCOPE_CUSTOMER_TYPE]; reply directs
+  to corporate channel
+expected:
+  status: REJECTED
+  risk_tier: null
+  risk_score: null
+  reason_codes: [OUT_OF_SCOPE_CUSTOMER_TYPE]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-5, TR-2, TR-1
+twin_pair: —
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: D6 is a QE-Lead decision; confirm.

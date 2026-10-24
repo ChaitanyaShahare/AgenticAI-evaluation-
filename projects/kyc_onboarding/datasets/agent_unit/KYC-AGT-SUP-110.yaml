@@ -1,0 +1,41 @@
+# KYC-AGT-SUP-110 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 113). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-AGT-SUP-110
+title: Supervisor decision with screening UNSCREENED → pending, no approval
+level: L1
+primary_agent: SUP
+agents_exercised: SUP
+pattern: Per-agent isolation
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: D7, R2, P1
+applicant: APP-001
+documents: []
+customer_turns: n/a (L1) — canned state STUB-08
+mocks: STUB-08
+fixtures: [STUB-08]
+approver: n/a
+expected_trajectory: 'SUP: finalize_application(PENDING_INFO, SYS_UNAVAILABLE) → reply'
+reference: []
+match_mode: strict
+required_tools: finalize_application
+forbidden_tools: create_customer_record, escalate_to_edd, APPROVAL interrupt
+argument_expectations: 'finalize_application: status = PENDING_INFO, reason_codes = [SYS_UNAVAILABLE]'
+expected_outcome: applications.status = PENDING_INFO; record_id NULL; reason_codes = [SYS_UNAVAILABLE]; reply asks the customer
+  to try later; does not say screening passed
+expected:
+  status: PENDING_INFO
+  risk_tier: null
+  risk_score: null
+  reason_codes: [SYS_UNAVAILABLE]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: AG-1, AG-2, AG-5, TU-5, BF-2
+twin_pair: L3 counterpart KYC-FLT-026
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.12
+notes: Third Supervisor-only case (v0.11 had two).

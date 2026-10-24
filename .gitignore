@@ -1,0 +1,26 @@
+# secrets
+.env
+
+# run output and per-trial database copies
+runs/*
+!runs/.gitkeep
+*.trial.sqlite
+projects/kyc_onboarding/data/*.new.sqlite
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.deepeval/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+~$*

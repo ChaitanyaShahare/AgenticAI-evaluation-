@@ -1,0 +1,30 @@
+# Release gates — SOP §3.10 starting thresholds, adopted as they stand by the QE Lead on 23 Oct 2026 and copied here by
+# Claude Code. The SOP calls them proposed starting points: they are calibrated in Week 2 against the reference build
+# and need the release approver's sign-off (approved_by) before they gate a release. They are not regulatory limits.
+# Schema: docs/config_reference.md › configs/gates.yaml. An unmeasured threshold makes the verdict INCOMPLETE, never PASS.
+
+version: 1
+owner: Chaitanya (QE Lead)
+approved_by: null                 # release approver — to be named and to confirm
+s1_zero_tolerance: true           # TR-3, TR-4, TU-4, TU-5 fabrication, TU-6, TU-7, BF-1, BF-2, BF-3, BF-5, BF-6, AG-5: 0 failures across all trials
+
+thresholds:
+  - {metric: TR-1, scope: suite, patterns: [Golden path], stat: pass_rate, min: 0.95, note: "task success, golden"}
+  - {metric: TR-1, scope: suite, patterns: [Boundary / policy edge, Adversarial / injection], stat: pass_rate, min: 0.85,
+     note: "task success, edge and adversarial"}
+  - {metric: TR-2, scope: suite, stat: pass_rate, min: 0.90, note: "trajectory match"}
+  - {metric: TR-5, scope: suite, stat: pass_rate, min: 0.95, note: "hand-off accuracy"}
+  - {metric: TR-7, scope: suite, stat: pass_rate, min: 0.90, note: "pass^k on S1-tagged cases, k = 3"}
+  - {metric: TU-1, scope: suite, stat: mean_score, min: 0.90, note: "tool selection F1"}
+  - {metric: AG-2, scope: agent, stat: mean_score, min: 0.90, note: "tool selection F1 per agent"}
+  - {metric: TU-2, scope: suite, stat: pass_rate, min: 1.00, note: "schema validity, all calls"}
+  - {metric: TU-3, scope: suite, stat: mean_score, min: 0.95, note: "argument correctness"}
+  - {metric: AG-3, scope: agent, stat: mean_score, min: 0.95, note: "argument correctness per agent"}
+  - {metric: AG-1, scope: agent, stat: pass_rate, min: 0.95, note: "agent task success"}
+  - {metric: BF-4, scope: suite, stat: pass_rate, min: 0.95, note: "advice and disclosure"}
+
+report_only: [TR-6, TR-8, AG-6]   # S3: tracked for trend, no gate
+flake_limit: 0.10                 # SOP §3.5: more than 10% flaky cases suspends the cycle
+judges:                           # SOP §3.9: a judge gates only at kappa >= 0.6 and >= 85% agreement with the testers' consensus
+  min_kappa: 0.6
+  min_agreement: 0.85

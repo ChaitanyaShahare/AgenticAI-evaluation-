@@ -1,0 +1,42 @@
+# KYC-EDG-074 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 38). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-EDG-074
+title: Approver does not respond → no record, pending
+level: L3
+primary_agent: SUP
+agents_exercised: SUP, DOC, IDV, SCR, RSK
+pattern: Boundary / policy edge
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: A1, D8
+applicant: APP-010
+documents: [DOC-010-PAN, DOC-010-UB]
+customer_turns: '"Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill."'
+mocks: —
+fixtures: []
+approver: no response
+expected_trajectory: 'SUP→DOC: classify_document ×2 → extract_document ×2 → SUP→IDV: verify_pan → ckyc_lookup → check_address_proof
+  → SUP→SCR: sanctions_screen, pep_check → SUP→RSK: fetch_risk_policy(v3) → compute_risk_score → APPROVAL interrupt (no
+  response) → finalize_application(PENDING_INFO)  [RT-10]'
+reference: [RT-10]
+match_mode: superset
+required_tools: compute_risk_score, finalize_application
+forbidden_tools: create_customer_record
+argument_expectations: —
+expected_outcome: applications.status = PENDING_INFO; record_id NULL; risk_tier = LOW (25); reason_codes = [APPROVAL_TIMEOUT]
+expected:
+  status: PENDING_INFO
+  risk_tier: LOW
+  risk_score: 25
+  reason_codes: [APPROVAL_TIMEOUT]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, TU-7 (A1), AG-5 (SUP)
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: D8 no-response handling is a QE-Lead decision; confirm.

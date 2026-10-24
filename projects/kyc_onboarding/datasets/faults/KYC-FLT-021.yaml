@@ -1,0 +1,42 @@
+# KYC-FLT-021 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 42). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+# expected.agent_outputs: drafted by Claude Code from expected_outcome on 23 Oct 2026; conflicts with the fixtures decided by the QE Lead.
+case_id: KYC-FLT-021
+title: verify_pan timeout then HTTP 500 — identity agent
+level: L1
+primary_agent: IDV
+agents_exercised: IDV
+pattern: Tool fault injection
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: TU-5, ≤2 retries
+applicant: APP-002
+documents: []
+customer_turns: n/a (L1)
+mocks: FP-01
+fixtures: [FP-01]
+approver: n/a
+expected_trajectory: 'IDV: verify_pan ×≤3 (1 + 2 retries) → ckyc_lookup → check_address_proof → write state.identity'
+reference: []
+match_mode: superset
+required_tools: verify_pan
+forbidden_tools: —
+argument_expectations: Same arguments on every retry
+expected_outcome: identity.pan_status = UNAVAILABLE; overall = UNVERIFIED (never VALID)
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs:
+    identity: {pan_status: UNAVAILABLE, overall: UNVERIFIED}
+  arguments: {}
+checks: TU-5 (no fabrication), AG-5, AG-6
+twin_pair: L3 twin KYC-FLT-022
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: 'Split from the SOP''s single FLT-021: L1 checks the agent, L3 twin checks the Supervisor.'

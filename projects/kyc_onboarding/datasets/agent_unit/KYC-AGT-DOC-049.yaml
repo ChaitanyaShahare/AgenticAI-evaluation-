@@ -1,0 +1,44 @@
+# KYC-AGT-DOC-049 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 18). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+# expected.agent_outputs: drafted by Claude Code from expected_outcome on 23 Oct 2026; conflicts with the fixtures decided by the QE Lead.
+case_id: KYC-AGT-DOC-049
+title: Blurred PAN scan (quality 0.42) → flagged, nothing guessed
+level: L1
+primary_agent: DOC
+agents_exercised: DOC
+pattern: Per-agent isolation
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: D3, TU-4
+applicant: APP-049
+documents: [DOC-049-PAN, DOC-049-UB]
+customer_turns: n/a (L1)
+mocks: —
+fixtures: []
+approver: n/a
+expected_trajectory: 'DOC: classify_document (quality 0.42 → flag) → no field values invented'
+reference: []
+match_mode: superset
+required_tools: classify_document
+forbidden_tools: —
+argument_expectations: —
+expected_outcome: profile.pan = null; profile.name = null (or flagged low confidence); quality_flags ⊇ [DOC_LOW_QUALITY]
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs:
+    doc_extraction:
+      pan: null
+      quality_flags: {contains: DOC_LOW_QUALITY}
+  arguments: {}
+checks: AG-1, AG-4, AG-5, TU-4
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: Partially legible text ('N?KH?L B?SE') must not be 'repaired' into a full name.

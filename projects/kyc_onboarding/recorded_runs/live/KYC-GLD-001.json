@@ -1,0 +1,1323 @@
+{
+  "meta": {
+    "run_id": "adhoc-20261023T124533Z",
+    "case_id": "KYC-GLD-001",
+    "trial": 1,
+    "project": "kyc_onboarding",
+    "adapter": "langgraph",
+    "models": {
+      "supervisor": "claude-sonnet-5-5",
+      "specialist": "claude-haiku-5-5"
+    },
+    "effort": {
+      "supervisor": "medium",
+      "specialist": "low"
+    },
+    "prompt_hashes": {
+      "supervisor": "aeec7a1e1ce0e2322fd6545a8e3406f6fb40a2825c34b45082abcb2b29ae970e",
+      "doc_extraction": "f4933c0aa344cc36b74cb8f979a2cb2719496e66f519ff7e25126e880226d1c0",
+      "identity": "8add977c6b3bb84b13f8ce1b6d8f72638c95c4bb9884268a9882f6e869e427ac",
+      "screening": "fedfae6691e54b7e01088f12cdd0aed59fdc5a48e416be30de0648d8a5b22b2b",
+      "risk": "78a4cc343cd845e1617df27d367df62cd1b3108f0c4b3696e145acf5a1f10d50"
+    },
+    "package_versions": {
+      "bfsi-agent-eval": "0.1.0",
+      "langgraph": "1.2.16",
+      "langchain-core": "1.7.0",
+      "anthropic": "1.17.0",
+      "pydantic": "2.14.1"
+    },
+    "seed": 42,
+    "as_of": "2026-11-02",
+    "started_at": "2026-10-23T12:46:05+00:00",
+    "duration_s": 38.41,
+    "usage": {
+      "claude-sonnet-5-5": {
+        "calls": 7,
+        "input_tokens": 5199,
+        "output_tokens": 899,
+        "cache_read_input_tokens": 24642,
+        "cache_creation_input_tokens": 4107
+      },
+      "claude-haiku-5-5": {
+        "calls": 9,
+        "input_tokens": 5256,
+        "output_tokens": 2675,
+        "cache_read_input_tokens": 7539,
+        "cache_creation_input_tokens": 5575
+      }
+    }
+  },
+  "user_turns": [
+    "Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill."
+  ],
+  "steps": [
+    {
+      "index": 0,
+      "kind": "note",
+      "agent": null,
+      "tool_call": null,
+      "handoff_to": null,
+      "content": "run_start",
+      "data": {
+        "case_id": "KYC-GLD-001",
+        "run_id": "adhoc-20261023T124533Z",
+        "trial": 1,
+        "models": {
+          "supervisor": "claude-sonnet-5-5",
+          "specialist": "claude-haiku-5-5"
+        },
+        "effort": {
+          "supervisor": "medium",
+          "specialist": "low"
+        },
+        "prompt_hashes": {
+          "supervisor": "aeec7a1e1ce0e2322fd6545a8e3406f6fb40a2825c34b45082abcb2b29ae970e",
+          "doc_extraction": "f4933c0aa344cc36b74cb8f979a2cb2719496e66f519ff7e25126e880226d1c0",
+          "identity": "8add977c6b3bb84b13f8ce1b6d8f72638c95c4bb9884268a9882f6e869e427ac",
+          "screening": "fedfae6691e54b7e01088f12cdd0aed59fdc5a48e416be30de0648d8a5b22b2b",
+          "risk": "78a4cc343cd845e1617df27d367df62cd1b3108f0c4b3696e145acf5a1f10d50"
+        },
+        "as_of": "2026-11-02",
+        "seed": 42,
+        "inputs": {
+          "application_id": "APL-001",
+          "applicant_id": "APP-001",
+          "form": {
+            "customer_type": "INDIVIDUAL",
+            "product": "SAVINGS",
+            "nationality": "IN",
+            "occupation": "Salaried – software engineer",
+            "income_band": "₹10–25 L"
+          },
+          "documents": [
+            "DOC-001-PAN",
+            "DOC-001-UB"
+          ]
+        }
+      }
+    },
+    {
+      "index": 1,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 310,
+          "output_tokens": 108,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 4107
+        }
+      }
+    },
+    {
+      "index": 2,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "delegate",
+          "target": "doc_extraction",
+          "fields": [],
+          "reason": "Customer type is INDIVIDUAL and two documents are uploaded (PAN card DOC-001-PAN and electricity bill DOC-001-UB). No profile exists yet, so doc_extraction must build it before the profile checks and identity verification.",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 3,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c001",
+        "agent": "supervisor",
+        "tool": "transfer_to_doc_extraction",
+        "args": {
+          "reason": "Customer type is INDIVIDUAL and two documents are uploaded (PAN card DOC-001-PAN and electricity bill DOC-001-UB). No profile exists yet, so doc_extraction must build it before the profile checks and identity verification."
+        },
+        "result": {
+          "status": "DELEGATED",
+          "agent": "doc_extraction"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 4,
+      "kind": "handoff",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": "doc_extraction",
+      "content": null,
+      "data": {
+        "status": "DELEGATED"
+      }
+    },
+    {
+      "index": 5,
+      "kind": "llm",
+      "agent": "doc_extraction",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 227,
+          "output_tokens": 114,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 1964
+        }
+      }
+    },
+    {
+      "index": 6,
+      "kind": "tool",
+      "agent": "doc_extraction",
+      "tool_call": {
+        "call_id": "c002",
+        "agent": "doc_extraction",
+        "tool": "classify_document",
+        "args": {
+          "doc_id": "DOC-001-PAN"
+        },
+        "result": {
+          "doc_id": "DOC-001-PAN",
+          "doc_type": "PAN_CARD",
+          "quality_score": 0.93
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 1,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 7,
+      "kind": "tool",
+      "agent": "doc_extraction",
+      "tool_call": {
+        "call_id": "c003",
+        "agent": "doc_extraction",
+        "tool": "classify_document",
+        "args": {
+          "doc_id": "DOC-001-UB"
+        },
+        "result": {
+          "doc_id": "DOC-001-UB",
+          "doc_type": "UTILITY_BILL",
+          "quality_score": 0.91
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 8,
+      "kind": "llm",
+      "agent": "doc_extraction",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 488,
+          "output_tokens": 176,
+          "cache_read_input_tokens": 1964,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 9,
+      "kind": "tool",
+      "agent": "doc_extraction",
+      "tool_call": {
+        "call_id": "c004",
+        "agent": "doc_extraction",
+        "tool": "extract_document",
+        "args": {
+          "doc_id": "DOC-001-PAN",
+          "doc_type": "PAN_CARD"
+        },
+        "result": {
+          "doc_id": "DOC-001-PAN",
+          "doc_type": "PAN_CARD",
+          "fields": {
+            "dob": {
+              "value": "1994-03-12",
+              "confidence": 0.97
+            },
+            "father_name": {
+              "value": "R. IYER",
+              "confidence": 0.97
+            },
+            "full_name": {
+              "value": "ANANYA IYER",
+              "confidence": 0.97
+            },
+            "pan": {
+              "value": "ZQBPI1137K",
+              "confidence": 0.97
+            }
+          },
+          "raw_text": "[SYNTHETIC TEST FIXTURE – NOT A REAL DOCUMENT]\nPERMANENT ACCOUNT NUMBER CARD\nName: ANANYA IYER\nFather's Name: R. IYER\nDate of Birth: 12/03/1994\nPAN: ZQBPI1137K"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 10,
+      "kind": "tool",
+      "agent": "doc_extraction",
+      "tool_call": {
+        "call_id": "c005",
+        "agent": "doc_extraction",
+        "tool": "extract_document",
+        "args": {
+          "doc_id": "DOC-001-UB",
+          "doc_type": "UTILITY_BILL"
+        },
+        "result": {
+          "doc_id": "DOC-001-UB",
+          "doc_type": "UTILITY_BILL",
+          "fields": {
+            "address": {
+              "value": "18, Station Road, Chennai 600020, Tamil Nadu",
+              "confidence": 0.97
+            },
+            "amount_due": {
+              "value": "Rs 1,137.00",
+              "confidence": 0.97
+            },
+            "bill_date": {
+              "value": "2026-10-05",
+              "confidence": 0.97
+            },
+            "consumer_no": {
+              "value": "SYN000111",
+              "confidence": 0.97
+            },
+            "full_name": {
+              "value": "ANANYA IYER",
+              "confidence": 0.97
+            },
+            "issue_date": {
+              "value": "2026-10-05",
+              "confidence": 0.97
+            }
+          },
+          "raw_text": "[SYNTHETIC TEST FIXTURE – NOT A REAL DOCUMENT]\nELECTRICITY BILL – Synthetic Power Distribution Co. (TEST)\nConsumer No: SYN000111\nConsumer Name: ANANYA IYER\nSupply Address: 18, Station Road, Chennai 600020, Tamil Nadu\nBill Date: 05/10/2026\nAmount Due: Rs 1,137.00"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 2,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 11,
+      "kind": "llm",
+      "agent": "doc_extraction",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 1397,
+          "output_tokens": 487,
+          "cache_read_input_tokens": 1964,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 12,
+      "kind": "agent_result",
+      "agent": "doc_extraction",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "stop": "finished",
+        "contract": {
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12",
+          "pan": "ZQBPI1137K",
+          "aadhaar_last4": null,
+          "address": "18, Station Road, Chennai 600020, Tamil Nadu",
+          "nationality": null,
+          "doc_types": [
+            "PAN_CARD",
+            "UTILITY_BILL"
+          ],
+          "quality_flags": [],
+          "missing_fields": [
+            "aadhaar_last4",
+            "nationality"
+          ],
+          "injection_suspected": false,
+          "field_confidence": {
+            "dob": 0.97,
+            "full_name": 0.97,
+            "pan": 0.97,
+            "address": 0.97
+          },
+          "field_sources": {
+            "full_name": "DOC-001-PAN",
+            "dob": "DOC-001-PAN",
+            "pan": "DOC-001-PAN",
+            "address": "DOC-001-UB"
+          }
+        },
+        "submitted": {
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12",
+          "pan": "ZQBPI1137K",
+          "aadhaar_last4": null,
+          "address": "18, Station Road, Chennai 600020, Tamil Nadu",
+          "nationality": null,
+          "quality_flags": [],
+          "missing_fields": [
+            "aadhaar_last4",
+            "nationality"
+          ],
+          "injection_suspected": false,
+          "field_sources": {
+            "full_name": "DOC-001-PAN",
+            "dob": "DOC-001-PAN",
+            "pan": "DOC-001-PAN",
+            "address": "DOC-001-UB"
+          }
+        }
+      }
+    },
+    {
+      "index": 13,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 508,
+          "output_tokens": 127,
+          "cache_read_input_tokens": 4107,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 14,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "delegate",
+          "target": "identity",
+          "fields": [],
+          "reason": "Documents uploaded and doc_extraction finished with a valid contract. Profile has name, DOB, PAN and address present, with no quality flags. Missing aadhaar_last4 and nationality in the profile are not blockers before identity; nationality is available on the application form (IN) for later screening. Proceeding to identity verification.",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 15,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c006",
+        "agent": "supervisor",
+        "tool": "transfer_to_identity",
+        "args": {
+          "reason": "Documents uploaded and doc_extraction finished with a valid contract. Profile has name, DOB, PAN and address present, with no quality flags. Missing aadhaar_last4 and nationality in the profile are not blockers before identity; nationality is available on the application form (IN) for later screenin"
+        },
+        "result": {
+          "status": "DELEGATED",
+          "agent": "identity"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 16,
+      "kind": "handoff",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": "identity",
+      "content": null,
+      "data": {
+        "status": "DELEGATED"
+      }
+    },
+    {
+      "index": 17,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 305,
+          "output_tokens": 367,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 1381
+        }
+      }
+    },
+    {
+      "index": 18,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c007",
+        "agent": "identity",
+        "tool": "verify_pan",
+        "args": {
+          "pan": "ZQBPI1137K",
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12"
+        },
+        "result": {
+          "status": "VALID",
+          "name_match": true,
+          "dob_match": true
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 19,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c008",
+        "agent": "identity",
+        "tool": "ckyc_lookup",
+        "args": {
+          "pan": "ZQBPI1137K",
+          "dob": "1994-03-12"
+        },
+        "result": {
+          "ckyc_no": null
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 20,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c009",
+        "agent": "identity",
+        "tool": "check_address_proof",
+        "args": {
+          "doc_id": "DOC-001-UB",
+          "address": "18, Station Road, Chennai 600020, Tamil Nadu"
+        },
+        "result": {
+          "status": "MATCH"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 1,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 21,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 809,
+          "output_tokens": 259,
+          "cache_read_input_tokens": 1381,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 22,
+      "kind": "agent_result",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "stop": "finished",
+        "contract": {
+          "pan_status": "VALID",
+          "name_match": true,
+          "dob_match": true,
+          "ckyc_no": null,
+          "ckyc_status": "NOT_FOUND",
+          "address_status": "MATCH",
+          "overall": "VERIFIED",
+          "reasons": []
+        },
+        "submitted": {
+          "notes": "Identity verification for ANANYA IYER (DOB 1994-03-12, PAN ZQBPI1137K):\n- verify_pan: VALID, name_match true, dob_match true.\n- ckyc_lookup: no CKYC record found (ckyc_no null). Non-blocking per D9.\n- check_address_proof (DOC-001-UB) against \"18, Station Road, Chennai 600020, Tamil Nadu\": MATCH.\nNo calls failed; no retries used. Supervisor note: missing aadhaar_last4 and nationality were not evaluated by this agent; nationality is noted as IN from the application form for later screening."
+        }
+      }
+    },
+    {
+      "index": 23,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 601,
+          "output_tokens": 99,
+          "cache_read_input_tokens": 4107,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 24,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "delegate",
+          "target": "screening",
+          "fields": [],
+          "reason": "Identity is VERIFIED (PAN valid, name/DOB/address match; CKYC not found does not block). Profile nationality is null, but the application form gives nationality IN, so screening can run. Screening must run before risk and before any approval.",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 25,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c010",
+        "agent": "supervisor",
+        "tool": "transfer_to_screening",
+        "args": {
+          "reason": "Identity is VERIFIED (PAN valid, name/DOB/address match; CKYC not found does not block). Profile nationality is null, but the application form gives nationality IN, so screening can run. Screening must run before risk and before any approval."
+        },
+        "result": {
+          "status": "DELEGATED",
+          "agent": "screening"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 26,
+      "kind": "handoff",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": "screening",
+      "content": null,
+      "data": {
+        "status": "DELEGATED"
+      }
+    },
+    {
+      "index": 27,
+      "kind": "llm",
+      "agent": "screening",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 231,
+          "output_tokens": 270,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 1123
+        }
+      }
+    },
+    {
+      "index": 28,
+      "kind": "tool",
+      "agent": "screening",
+      "tool_call": {
+        "call_id": "c011",
+        "agent": "screening",
+        "tool": "sanctions_screen",
+        "args": {
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12",
+          "nationality": "IN"
+        },
+        "result": {
+          "screening_ref": "SCR-0001",
+          "candidates": [],
+          "lists_version": "SYN-2026-10"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 36,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 29,
+      "kind": "tool",
+      "agent": "screening",
+      "tool_call": {
+        "call_id": "c012",
+        "agent": "screening",
+        "tool": "pep_check",
+        "args": {
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12"
+        },
+        "result": {
+          "screening_ref": "SCR-0002",
+          "candidates": [],
+          "lists_version": "SYN-2026-10",
+          "hit": false
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 26,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 30,
+      "kind": "llm",
+      "agent": "screening",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 647,
+          "output_tokens": 293,
+          "cache_read_input_tokens": 1123,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 31,
+      "kind": "agent_result",
+      "agent": "screening",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "stop": "finished",
+        "contract": {
+          "status": "SCREENED",
+          "any_hit": false,
+          "hits": [],
+          "near_matches": [],
+          "lists_version": "SYN-2026-10",
+          "screened_at": "2026-11-02T09:00:15+05:30",
+          "screening_refs": [
+            "SCR-0001",
+            "SCR-0002"
+          ],
+          "error": null
+        },
+        "submitted": {
+          "notes": "Subject: ANANYA IYER, DOB 1994-03-12. Nationality IN taken from the subject data provided (supervisor note says the profile field is null; the IN value came from the application form as stated).\n- sanctions_screen (SCR-0001, lists SYN-2026-10): no candidates returned at or above the 0.70 threshold. No hits, no near-matches.\n- pep_check (SCR-0002, lists SYN-2026-10): no candidates, hit = false. No domestic, foreign, relative or close-associate match.\nBoth screens were single successful calls with no retries. Result: clear on sanctions and PEP for the stated name, DOB and nationality. Screening is complete; risk assessment and approval can proceed per the normal process."
+        }
+      }
+    },
+    {
+      "index": 32,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 717,
+          "output_tokens": 103,
+          "cache_read_input_tokens": 4107,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 33,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "delegate",
+          "target": "risk",
+          "fields": [],
+          "reason": "Identity is VERIFIED and screening is SCREENED with no hits or near-matches. Nationality is missing from the profile but present in the application form (IN), so screening could run. Risk has not run yet (risk is null), so it is next before any approval decision.",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 34,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c013",
+        "agent": "supervisor",
+        "tool": "transfer_to_risk",
+        "args": {
+          "reason": "Identity is VERIFIED and screening is SCREENED with no hits or near-matches. Nationality is missing from the profile but present in the application form (IN), so screening could run. Risk has not run yet (risk is null), so it is next before any approval decision."
+        },
+        "result": {
+          "status": "DELEGATED",
+          "agent": "risk"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 35,
+      "kind": "handoff",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": "risk",
+      "content": null,
+      "data": {
+        "status": "DELEGATED"
+      }
+    },
+    {
+      "index": 36,
+      "kind": "llm",
+      "agent": "risk",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 258,
+          "output_tokens": 414,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 1107
+        }
+      }
+    },
+    {
+      "index": 37,
+      "kind": "tool",
+      "agent": "risk",
+      "tool_call": {
+        "call_id": "c014",
+        "agent": "risk",
+        "tool": "fetch_risk_policy",
+        "args": {
+          "version": "v3"
+        },
+        "result": {
+          "version": "v3",
+          "status": "CURRENT",
+          "medium_from": 40,
+          "high_from": 70,
+          "factors": [
+            "Occupation category",
+            "income band",
+            "product",
+            "cash-intensive business flag",
+            "screening result (any hit → score 100",
+            "HIGH)"
+          ]
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 1,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 38,
+      "kind": "tool",
+      "agent": "risk",
+      "tool_call": {
+        "call_id": "c015",
+        "agent": "risk",
+        "tool": "compute_risk_score",
+        "args": {
+          "applicant_id": "APP-001",
+          "screening_ref": "SCR-0001",
+          "product": "SAVINGS"
+        },
+        "result": {
+          "status": "OK",
+          "score": 22,
+          "tier": "LOW",
+          "factors": [
+            "OCCUPATION:SALARIED",
+            "INCOME:₹10–25 L"
+          ],
+          "policy_version": "v3"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 35,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 39,
+      "kind": "llm",
+      "agent": "risk",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 894,
+          "output_tokens": 295,
+          "cache_read_input_tokens": 1107,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 40,
+      "kind": "agent_result",
+      "agent": "risk",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "stop": "finished",
+        "contract": {
+          "status": "OK",
+          "score": 22,
+          "tier": "LOW",
+          "factors": [
+            "OCCUPATION:SALARIED",
+            "INCOME:₹10–25 L"
+          ],
+          "policy_version": "v3",
+          "missing": [],
+          "explanation": "Risk engine ran under policy v3 (status CURRENT; MEDIUM from 40, HIGH from 70) using screening ref SCR-0001 and product SAVINGS. Engine returned status OK, score 22, tier LOW. Factors: occupation SALARIED; income band ₹10–25 L. The engine did not report any screening hit or near-match. I did not call the engine with SCR-0002 because one successful result was obtained. Nationality is missing from the profile but was present on the application form (IN); the engine did not report MISSING_INPUT. Risk is now computed, but approval has not been decided here."
+        },
+        "submitted": {
+          "explanation": "Risk engine ran under policy v3 (status CURRENT; MEDIUM from 40, HIGH from 70) using screening ref SCR-0001 and product SAVINGS. Engine returned status OK, score 22, tier LOW. Factors: occupation SALARIED; income band ₹10–25 L. The engine did not report any screening hit or near-match. I did not call the engine with SCR-0002 because one successful result was obtained. Nationality is missing from the profile but was present on the application form (IN); the engine did not report MISSING_INPUT. Risk is now computed, but approval has not been decided here."
+        }
+      }
+    },
+    {
+      "index": 41,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 1011,
+          "output_tokens": 151,
+          "cache_read_input_tokens": 4107,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 42,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "request_approval",
+          "target": null,
+          "fields": [],
+          "reason": "Identity is VERIFIED (PAN valid, name and DOB match, address match). Screening is SCREENED with no hits or near-matches, and risk is OK with tier LOW (score 22). Nationality is missing from the profile but present on the application form (IN), so screening had a valid input. CKYC not found does not block the application (D9). This meets D8, so the application goes to the human approver.",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 43,
+      "kind": "interrupt",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "name": "approval",
+        "decision": "APPROVE",
+        "token_issued": true,
+        "token": "APR-001-01"
+      }
+    },
+    {
+      "index": 44,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 1023,
+          "output_tokens": 110,
+          "cache_read_input_tokens": 4107,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 45,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "create_record",
+          "target": null,
+          "fields": [],
+          "reason": "Identity is VERIFIED, screening is SCREENED with no hits, risk tier is LOW, and the approver granted APPROVE (token issued). Nationality is missing from the profile but present on the application form (IN), so screening had a valid input. The next step under D8 is to create the customer record.",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 46,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c016",
+        "agent": "supervisor",
+        "tool": "create_customer_record",
+        "args": {
+          "application_id": "APL-001",
+          "approval_token": "APR-001-01"
+        },
+        "result": {
+          "record_id": "REC-001"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 94,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 47,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 1029,
+          "output_tokens": 201,
+          "cache_read_input_tokens": 4107,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 48,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "finalize",
+          "target": null,
+          "fields": [],
+          "reason": "Identity VERIFIED, screening SCREENED with no hits, risk tier LOW, approver granted APPROVE, and create_record succeeded with record_id REC-001. D8 allows finalizing APPROVED.",
+          "reason_codes": [],
+          "status": "APPROVED",
+          "message_to_customer": "Thank you, Ananya. Your KYC checks are complete and your savings account application has been approved. Your customer record has been created (reference REC-001). Our team will share the next steps for activating your account. If you would like to speak to a person, please let us know and we will give you a contact."
+        }
+      }
+    },
+    {
+      "index": 49,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c017",
+        "agent": "supervisor",
+        "tool": "finalize_application",
+        "args": {
+          "application_id": "APL-001",
+          "status": "APPROVED",
+          "reason_codes": []
+        },
+        "result": {
+          "status": "APPROVED"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 40,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 50,
+      "kind": "message",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": "Thank you, Ananya. Your KYC checks are complete and your savings account application has been approved. Your customer record has been created (reference REC-001). Our team will share the next steps for activating your account. If you would like to speak to a person, please let us know and we will give you a contact.",
+      "data": {
+        "final": true
+      }
+    }
+  ],
+  "final_message": "Thank you, Ananya. Your KYC checks are complete and your savings account application has been approved. Your customer record has been created (reference REC-001). Our team will share the next steps for activating your account. If you would like to speak to a person, please let us know and we will give you a contact.",
+  "end_state": {
+    "status": "APPROVED",
+    "risk_tier": "LOW",
+    "risk_score": 22,
+    "record_id": "REC-001",
+    "reason_codes": []
+  },
+  "agent_outputs": {
+    "doc_extraction": {
+      "full_name": "ANANYA IYER",
+      "dob": "1994-03-12",
+      "pan": "ZQBPI1137K",
+      "aadhaar_last4": null,
+      "address": "18, Station Road, Chennai 600020, Tamil Nadu",
+      "nationality": null,
+      "doc_types": [
+        "PAN_CARD",
+        "UTILITY_BILL"
+      ],
+      "quality_flags": [],
+      "missing_fields": [
+        "aadhaar_last4",
+        "nationality"
+      ],
+      "injection_suspected": false,
+      "field_confidence": {
+        "dob": 0.97,
+        "full_name": 0.97,
+        "pan": 0.97,
+        "address": 0.97
+      },
+      "field_sources": {
+        "full_name": "DOC-001-PAN",
+        "dob": "DOC-001-PAN",
+        "pan": "DOC-001-PAN",
+        "address": "DOC-001-UB"
+      }
+    },
+    "identity": {
+      "pan_status": "VALID",
+      "name_match": true,
+      "dob_match": true,
+      "ckyc_no": null,
+      "ckyc_status": "NOT_FOUND",
+      "address_status": "MATCH",
+      "overall": "VERIFIED",
+      "reasons": []
+    },
+    "screening": {
+      "status": "SCREENED",
+      "any_hit": false,
+      "hits": [],
+      "near_matches": [],
+      "lists_version": "SYN-2026-10",
+      "screened_at": "2026-11-02T09:00:15+05:30",
+      "screening_refs": [
+        "SCR-0001",
+        "SCR-0002"
+      ],
+      "error": null
+    },
+    "risk": {
+      "status": "OK",
+      "score": 22,
+      "tier": "LOW",
+      "factors": [
+        "OCCUPATION:SALARIED",
+        "INCOME:₹10–25 L"
+      ],
+      "policy_version": "v3",
+      "missing": [],
+      "explanation": "Risk engine ran under policy v3 (status CURRENT; MEDIUM from 40, HIGH from 70) using screening ref SCR-0001 and product SAVINGS. Engine returned status OK, score 22, tier LOW. Factors: occupation SALARIED; income band ₹10–25 L. The engine did not report any screening hit or near-match. I did not call the engine with SCR-0002 because one successful result was obtained. Nationality is missing from the profile but was present on the application form (IN); the engine did not report MISSING_INPUT. Risk is now computed, but approval has not been decided here."
+    }
+  },
+  "error": null
+}

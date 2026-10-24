@@ -1,0 +1,29 @@
+{
+  "id": "RT-10",
+  "name": "Pending info – approval timeout",
+  "tools": [
+    "transfer_to_doc_extraction",
+    "classify_document",
+    "extract_document",
+    "transfer_to_identity",
+    "verify_pan",
+    "ckyc_lookup",
+    "check_address_proof",
+    "transfer_to_screening",
+    "sanctions_screen",
+    "pep_check",
+    "transfer_to_risk",
+    "fetch_risk_policy",
+    "compute_risk_score",
+    "finalize_application"
+  ],
+  "end_state": "PENDING_INFO",
+  "default_match_mode": "superset; create forbidden",
+  "used_by": [
+    "KYC-EDG-074"
+  ],
+  "source": "KYC_Test_Case_Catalogue_v0.12.xlsx › Reference Trajectories",
+  "source_text": "RT-01 up to APPROVAL interrupt (no response) → finalize_application(PENDING_INFO, APPROVAL_TIMEOUT) → reply",
+  "expansion": "'RT-01 up to APPROVAL interrupt' = RT-01 without create_customer_record; then finalize_application(PENDING_INFO).",
+  "reviewed_by": "Chaitanya (QE Lead), 23 Oct 2026 — accepted as drafted"
+}

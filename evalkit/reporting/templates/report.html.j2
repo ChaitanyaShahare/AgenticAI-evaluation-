@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evaluation report · {{ run_id }}</title>
+<style>
+  :root { --bg:#fbfbfa; --fg:#1d1d1b; --muted:#6b6b66; --line:#e3e2dd; --card:#ffffff;
+          --pass:#1f7a4d; --fail:#b42318; --warn:#9a6700; --skip:#8a8a84; --hl:#fdecea; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#161615; --fg:#ecebe7; --muted:#a3a29c; --line:#33332f; --card:#1f1f1d;
+          --pass:#5cc28f; --fail:#f2847a; --warn:#e0b64f; --skip:#8d8c86; --hl:#3a2220; } }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:24px 16px 64px; background:var(--bg); color:var(--fg); font:14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1180px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 4px; } h2 { font-size: 17px; margin: 32px 0 8px; } h3 { font-size: 14px; margin: 0; }
+  .muted { color: var(--muted); } .mono { font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin: 8px 0; overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; } th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+  table.mono td { overflow-wrap: anywhere; }  /* long JSON in checks and timelines wraps instead of overflowing */ td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .badge { display:inline-block; padding: 2px 10px; border-radius: 999px; font-weight: 700; font-size: 13px; border: 1px solid currentColor; }
+  .PASS, .pass { color: var(--pass); } .FAIL, .fail, .error { color: var(--fail); } .INCOMPLETE, .SUSPENDED, .NO_GATES, .warn { color: var(--warn); } .skip { color: var(--skip); }
+  tr.failing td { background: var(--hl); }
+  details summary { cursor: pointer; list-style: none; } details summary::-webkit-details-marker { display: none; }
+  details summary h3::before { content: "▸ "; color: var(--muted); } details[open] summary h3::before { content: "▾ "; }
+</style>
+</head>
+<body><main>
+<h1>Evaluation report <span class="badge {{ verdict }}">{{ verdict }}</span></h1>
+<div class="muted">{{ project }} · run {{ run_id }} · {{ generated }} · {{ trials|length }} trial(s)</div>
+{% for r in reasons %}<div class="{{ verdict }}">{{ r }}</div>{% endfor %}
+{% for n in notes %}<div class="muted">Note: {{ n }}</div>{% endfor %}
+
+<h2>S1 failures ({{ s1_failures|length }})</h2>
+<div class="card">{% if s1_failures %}<ul class="mono">{% for f in s1_failures %}<li class="fail">{{ f }}</li>{% endfor %}</ul>{% else %}<span class="pass">None — zero tolerance met on these trials.</span>{% endif %}</div>
+
+<h2>Gate</h2>
+<div class="card"><table>
+<tr><th>Threshold</th><th class="num">Value</th><th class="num">Minimum</th><th>Result</th><th>First failure</th></tr>
+{% for g in gate_lines %}<tr><td>{{ g.name }}</td><td class="num">{{ "%.2f"|format(g.value) if g.value is not none else "—" }}</td><td class="num">{{ "%.2f"|format(g.minimum) }}</td>
+<td class="{{ 'pass' if g.ok else ('fail' if g.ok is sameas false else 'warn') }}">{{ 'met' if g.ok else ('missed' if g.ok is sameas false else 'not measured') }}</td><td class="muted">{{ g.detail if g.ok is not sameas true else '' }}</td></tr>{% endfor %}
+</table></div>
+
+<h2>Per-agent scorecards</h2>
+<div class="card"><table>
+<tr><th>Agent</th>{% for c in ag_cols %}<th class="num">{{ c }}</th>{% endfor %}<th class="num">Score</th><th class="num">S1 fails</th></tr>
+{% for name, card in agents.items() %}<tr><td>{{ name }}</td>
+{% for c in ag_cols %}{% set m = card.metrics.get(c) %}<td class="num {{ 'fail' if m and m.s1_failures else '' }}">{% if m and m.run %}{{ "%.2f"|format(m.mean_score if c == 'AG-6' and m.mean_score is not none else m.pass_rate) }}{% else %}<span class="skip">—</span>{% endif %}</td>{% endfor %}
+<td class="num">{{ "%.2f"|format(card.composite) if card.composite is not none else "—" }}</td><td class="num {{ 'fail' if card.s1_failures else '' }}">{{ card.s1_failures }}</td></tr>{% endfor %}
+</table><div class="muted">Pass rate over checks run; AG-6 mean score; — = not measured. Score = SOP §5.3 composite × S1 gate.</div></div>
+
+<h2>Suite metrics</h2>
+<div class="card"><table>
+<tr><th>Metric</th><th class="num">Pass rate</th><th class="num">Mean score</th><th class="num">Run</th><th class="num">Skipped</th><th class="num">S1 fails</th><th>First failure</th></tr>
+{% for metric, m in suite.items() %}<tr><td>{{ metric }}</td><td class="num">{{ "%.2f"|format(m.pass_rate) if m.pass_rate is not none else "—" }}</td>
+<td class="num">{{ "%.2f"|format(m.mean_score) if m.mean_score is not none else "—" }}</td><td class="num">{{ m.run }}</td><td class="num">{{ m.skipped }}</td>
+<td class="num {{ 'fail' if m.s1_failures else '' }}">{{ m.s1_failures }}</td><td class="muted">{{ m.first_failure }}</td></tr>{% endfor %}
+</table>{% if flaky %}<div class="warn">Flaky cases: {{ flaky|join(", ") }}</div>{% endif %}</div>
+
+{% if cost %}<h2>Cost</h2>
+<div class="card"><table><tr><th>Model</th><th class="num">Calls</th><th class="num">Input</th><th class="num">Output</th><th class="num">Cache read</th><th class="num">Cache write</th></tr>
+{% for model, u in cost.by_model.items() %}<tr><td>{{ model }}</td><td class="num">{{ u.calls }}</td><td class="num">{{ u.input_tokens }}</td><td class="num">{{ u.output_tokens }}</td><td class="num">{{ u.cache_read_input_tokens }}</td><td class="num">{{ u.cache_creation_input_tokens }}</td></tr>{% endfor %}
+</table><div>{% if cost.usd is not none %}USD {{ "%.4f"|format(cost.usd) }}{% if cost.inr is not none %} · ₹{{ "%.2f"|format(cost.inr) }}{% endif %}{% else %}<span class="warn">Cost unknown — prices missing for {{ cost.prices_missing_for|join(", ") }}</span>{% endif %}</div>
+{% for a in cost.alerts %}<div class="warn">{{ a }}</div>{% endfor %}</div>{% endif %}
+
+<h2>Trials</h2>
+{% for t in trials %}<details class="card" {% if not t.passed %}open{% endif %}>
+<summary><h3><span class="{{ 'pass' if t.passed else 'fail' }}">{{ 'PASS' if t.passed else 'FAIL' }}</span> {{ t.case_id }} t{{ t.trial }}{% if t.s1 %} <span class="fail">· {{ t.s1 }} S1</span>{% endif %}</h3></summary>
+<div class="muted mono">end state {{ t.end_state }}</div>
+{% if t.final %}<div class="muted">Final reply: {{ t.final }}</div>{% endif %}
+<table class="mono"><tr><th>Verdict</th><th>Sev</th><th>Check</th><th>Detail</th><th class="num">Step</th></tr>
+{% for c in t.checks %}<tr><td class="{{ c.verdict }}">{{ c.verdict }}</td><td>{{ c.severity }}</td><td>{{ c.name }}</td><td>{{ c.detail }}</td><td class="num">{{ c.evidence_step if c.evidence_step is not none else '' }}</td></tr>{% endfor %}
+</table>
+<details><summary><h3 class="muted">Trajectory timeline ({{ t.timeline|length }} steps{% if t.timeline|selectattr('failing')|list %}, failing steps highlighted{% endif %})</h3></summary>
+<table class="mono"><tr><th class="num">#</th><th>Kind</th><th>Agent</th><th>Step</th></tr>
+{% for s in t.timeline %}<tr class="{{ 'failing' if s.failing else '' }}"><td class="num">{{ s.index }}</td><td>{{ s.kind }}</td><td>{{ s.agent }}</td><td>{{ s.what }}</td></tr>{% endfor %}
+</table></details>
+</details>{% endfor %}
+</main></body>
+</html>

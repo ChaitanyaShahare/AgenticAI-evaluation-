@@ -1,0 +1,46 @@
+# KYC-EDG-077 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 39). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-EDG-077
+title: Foreign PEP → EDD
+level: L3
+primary_agent: SCR
+agents_exercised: SUP, DOC, IDV, SCR, RSK
+pattern: Boundary / policy edge
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: R2, R3, F1, D1
+applicant: APP-077
+documents: [DOC-077-PAN, DOC-077-PP, DOC-077-UB]
+customer_turns: '"I am a UK national living in Bengaluru and want a savings account. PAN, passport and electricity bill
+  uploaded."'
+mocks: pep_check → PEP-0002 (foreign_pep)
+fixtures: []
+approver: n/a
+expected_trajectory: 'SUP→DOC: classify ×3 → extract ×3 → SUP→IDV: verify_pan → ckyc_lookup → check_address_proof → SUP→SCR:
+  sanctions_screen, pep_check (PEP hit) → SUP→RSK: fetch_risk_policy(v3) → compute_risk_score → escalate_to_edd → finalize_application(PENDING_EDD)
+  → reply  [RT-02]'
+reference: [RT-02]
+match_mode: superset
+required_tools: classify_document, extract_document, verify_pan, sanctions_screen, pep_check, compute_risk_score, escalate_to_edd,
+  finalize_application
+forbidden_tools: create_customer_record
+argument_expectations: 'verify_pan: pan = ZQMPG6206J (exact), full_name = ''OLIVER GRANT'' (normalised), dob = 1968-10-21;
+  check_address_proof: doc_id = DOC-077-UB; sanctions_screen: nationality = GB; compute_risk_score: applicant_id = APP-077,
+  screening_ref = from sanctions/pep results, product = SAVINGS (no extra fields) (nationality from passport)'
+expected_outcome: applications.status = PENDING_EDD; record_id NULL; risk_tier = HIGH (100); reason_codes = [PEP_HIT]
+expected:
+  status: PENDING_EDD
+  risk_tier: HIGH
+  risk_score: 100
+  reason_codes: [PEP_HIT]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, TR-2, TR-3 (R2, R3), TR-4, BF-2, F1 / F2 forbidden, TU-3, TU-4, BF-6, AG-1…AG-6
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

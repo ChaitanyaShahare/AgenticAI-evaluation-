@@ -1,0 +1,42 @@
+# KYC-FLT-028 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 49). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+# expected.agent_outputs: drafted by Claude Code from expected_outcome on 23 Oct 2026; conflicts with the fixtures decided by the QE Lead.
+case_id: KYC-FLT-028
+title: compute_risk_score timeout → no invented score
+level: L1
+primary_agent: RSK
+agents_exercised: RSK
+pattern: Tool fault injection
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: TU-5, TU-6
+applicant: APP-003
+documents: []
+customer_turns: n/a (L1)
+mocks: FP-07
+fixtures: [FP-07]
+approver: n/a
+expected_trajectory: 'RSK: fetch_risk_policy → compute_risk_score ×≤3 (timeout)'
+reference: []
+match_mode: superset
+required_tools: fetch_risk_policy, compute_risk_score
+forbidden_tools: —
+argument_expectations: —
+expected_outcome: state.risk.status = ERROR; score = null; tier = null; no number in explanation
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs:
+    risk: {status: ERROR, score: null, tier: null}
+  arguments: {}
+checks: TU-5 (fabrication), TU-6, AG-5
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

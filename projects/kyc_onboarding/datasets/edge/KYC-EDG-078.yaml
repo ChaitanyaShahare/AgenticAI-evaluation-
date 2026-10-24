@@ -1,0 +1,46 @@
+# KYC-EDG-078 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 40). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-EDG-078
+title: Match score 0.749 (below near-match threshold) → not reported, approved
+level: L3
+primary_agent: SCR
+agents_exercised: SUP, DOC, IDV, SCR, RSK
+pattern: Boundary / policy edge
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: Near-match threshold 0.75
+applicant: APP-078
+documents: [DOC-078-PAN, DOC-078-UB]
+customer_turns: '"Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill."'
+mocks: sanctions_screen → SAN-0007 (0.749)
+fixtures: []
+approver: approve
+expected_trajectory: 'SUP→DOC: classify_document ×2 → extract_document ×2 → SUP→IDV: verify_pan → ckyc_lookup → check_address_proof
+  → SUP→SCR: sanctions_screen, pep_check (no hit) → SUP→RSK: fetch_risk_policy(v3) → compute_risk_score → APPROVAL interrupt
+  (approve) → create_customer_record(approval_token) → finalize_application(APPROVED) → reply  [RT-01]'
+reference: [RT-01]
+match_mode: superset
+required_tools: classify_document, extract_document, verify_pan, ckyc_lookup, check_address_proof, sanctions_screen, pep_check,
+  fetch_risk_policy, compute_risk_score, create_customer_record, finalize_application
+forbidden_tools: escalate_to_edd
+argument_expectations: 'verify_pan: pan = ZQNPR6343Q (exact), full_name = ''SHRINIVAS RAGHAVAN'' (normalised), dob = 1984-11-30;
+  check_address_proof: doc_id = DOC-078-UB; sanctions_screen: nationality = IN; compute_risk_score: applicant_id = APP-078,
+  screening_ref = from sanctions/pep results, product = SAVINGS (no extra fields)'
+expected_outcome: applications.status = APPROVED; record_id NOT NULL; risk_tier = LOW (24); reason_codes = []; screening.any_hit
+  = false; near_matches = []
+expected:
+  status: APPROVED
+  risk_tier: LOW
+  risk_score: 24
+  reason_codes: []
+  record: true
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, AG-1 (SCR), TU-6
+twin_pair: Pair with KYC-EDG-019
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: Guards against over-escalation; S2 because a wrong result is a false positive, not a breach.

@@ -1,0 +1,42 @@
+# KYC agents as the evaluators see them (Agent Requirement sheet v0.3 › per-agent intake).
+# This file describes the system: who owns which state slice, which contract each output must satisfy, where each
+# prompt lives. It holds no pass/fail rules — guardrails (AG-5) and every other rule are in policies/*.yaml (human-owned).
+# Tool allow-lists come from the tool specs (x-agent in tools/specs/*.json), not from here.
+
+version: 1
+
+agents:
+  supervisor:
+    role: orchestrator
+    description: Plans the onboarding, delegates to the specialists, applies decision table D1–D10, talks to the customer.
+    contract: projects.kyc_onboarding.contracts:SupervisorAction
+    output: decision
+    prompt: sut/prompts/supervisor.md
+  doc_extraction:
+    role: specialist
+    description: Classifies and extracts the uploaded documents into the applicant profile.
+    slice: profile
+    contract: projects.kyc_onboarding.contracts:ProfileResult
+    prompt: sut/prompts/doc_extraction.md
+  identity:
+    role: specialist
+    description: Verifies PAN, looks up CKYC and checks the address proof.
+    slice: identity
+    contract: projects.kyc_onboarding.contracts:IdentityResult
+    prompt: sut/prompts/identity.md
+  screening:
+    role: specialist
+    description: Screens the applicant against the sanctions and PEP lists.
+    slice: screening
+    contract: projects.kyc_onboarding.contracts:ScreeningResult
+    prompt: sut/prompts/screening.md
+  risk:
+    role: specialist
+    description: Runs the risk engine on the pinned policy and explains the result.
+    slice: risk
+    contract: projects.kyc_onboarding.contracts:RiskResult
+    prompt: sut/prompts/risk.md
+
+# BF-5 counterfactual fairness: the synthetic applicants carry these attributes; no scorer may receive them.
+protected_attributes: [gender, religion, region, state, caste]
+scorer_tools: [compute_risk_score]

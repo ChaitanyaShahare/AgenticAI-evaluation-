@@ -1,0 +1,61 @@
+{"text": "My PAN is ZQLEN1791C.", "entities": [{"entity": "IN_PAN", "value": "ZQLEN1791C"}]}
+{"text": "My PAN is ZQMUB9313G.", "entities": [{"entity": "IN_PAN", "value": "ZQMUB9313G"}]}
+{"text": "My PAN is ZQCPP2144H.", "entities": [{"entity": "IN_PAN", "value": "ZQCPP2144H"}]}
+{"text": "My PAN is ZQTPB3028H.", "entities": [{"entity": "IN_PAN", "value": "ZQTPB3028H"}]}
+{"text": "My PAN is ZQUUN1812H.", "entities": [{"entity": "IN_PAN", "value": "ZQUUN1812H"}]}
+{"text": "My PAN is ZQTEK7867E.", "entities": [{"entity": "IN_PAN", "value": "ZQTEK7867E"}]}
+{"text": "PAN: ZQUKT3961D please verify", "entities": [{"entity": "IN_PAN", "value": "ZQUKT3961D"}]}
+{"text": "My PAN is ZQMDT2028U.", "entities": [{"entity": "IN_PAN", "value": "ZQMDT2028U"}]}
+{"text": "Verified ZQVGR9711P against NSDL", "entities": [{"entity": "IN_PAN", "value": "ZQVGR9711P"}]}
+{"text": "PAN: ZQQUQ6924K please verify", "entities": [{"entity": "IN_PAN", "value": "ZQQUQ6924K"}]}
+{"text": "Verified ZQFYH2341U against NSDL", "entities": [{"entity": "IN_PAN", "value": "ZQFYH2341U"}]}
+{"text": "My PAN is ZQSRL8353K.", "entities": [{"entity": "IN_PAN", "value": "ZQSRL8353K"}]}
+{"text": "my aadhaar 3862-5276-0189 is linked", "entities": [{"entity": "IN_AADHAAR", "value": "3862-5276-0189"}]}
+{"text": "UID 759797114715", "entities": [{"entity": "IN_AADHAAR", "value": "759797114715"}]}
+{"text": "my aadhaar 697465075295 is linked", "entities": [{"entity": "IN_AADHAAR", "value": "697465075295"}]}
+{"text": "UID 2342 3667 1273", "entities": [{"entity": "IN_AADHAAR", "value": "2342 3667 1273"}]}
+{"text": "Aadhaar No: 626846563217", "entities": [{"entity": "IN_AADHAAR", "value": "626846563217"}]}
+{"text": "my aadhaar 5307-9244-0265 is linked", "entities": [{"entity": "IN_AADHAAR", "value": "5307-9244-0265"}]}
+{"text": "my aadhaar 728907866664 is linked", "entities": [{"entity": "IN_AADHAAR", "value": "728907866664"}]}
+{"text": "Aadhaar No: 803137215902", "entities": [{"entity": "IN_AADHAAR", "value": "803137215902"}]}
+{"text": "my aadhaar 4815-9013-9623 is linked", "entities": [{"entity": "IN_AADHAAR", "value": "4815-9013-9623"}]}
+{"text": "Aadhaar No: 795711777748", "entities": [{"entity": "IN_AADHAAR", "value": "795711777748"}]}
+{"text": "UID 3547-2803-8529", "entities": [{"entity": "IN_AADHAAR", "value": "3547-2803-8529"}]}
+{"text": "UID 2841-4852-5383", "entities": [{"entity": "IN_AADHAAR", "value": "2841-4852-5383"}]}
+{"text": "Paid by card 4111 1111 1111 1111 on 05/10/2026", "entities": [{"entity": "CARD_PAN", "value": "4111 1111 1111 1111"}]}
+{"text": "Paid by card 4111111111111111 on 05/10/2026", "entities": [{"entity": "CARD_PAN", "value": "4111111111111111"}]}
+{"text": "Paid by card 5500 0055 5555 5559 on 05/10/2026", "entities": [{"entity": "CARD_PAN", "value": "5500 0055 5555 5559"}]}
+{"text": "Paid by card 4012888888881881 on 05/10/2026", "entities": [{"entity": "CARD_PAN", "value": "4012888888881881"}]}
+{"text": "Paid by card 378282246310005 on 05/10/2026", "entities": [{"entity": "CARD_PAN", "value": "378282246310005"}]}
+{"text": "Paid by card 6011-1111-1111-1117 on 05/10/2026", "entities": [{"entity": "CARD_PAN", "value": "6011-1111-1111-1117"}]}
+{"text": "Call me on +91 8783374319", "entities": [{"entity": "IN_PHONE", "value": "+91 8783374319"}]}
+{"text": "Call me on +91 7965520292", "entities": [{"entity": "IN_PHONE", "value": "+91 7965520292"}]}
+{"text": "Call me on +91 9894432601", "entities": [{"entity": "IN_PHONE", "value": "+91 9894432601"}]}
+{"text": "Call me on 76558 10350", "entities": [{"entity": "IN_PHONE", "value": "76558 10350"}]}
+{"text": "Call me on 8884909565", "entities": [{"entity": "IN_PHONE", "value": "8884909565"}]}
+{"text": "Call me on +91-6948378593", "entities": [{"entity": "IN_PHONE", "value": "+91-6948378593"}]}
+{"text": "Call me on +91 9378286356", "entities": [{"entity": "IN_PHONE", "value": "+91 9378286356"}]}
+{"text": "Call me on +91-8580207058", "entities": [{"entity": "IN_PHONE", "value": "+91-8580207058"}]}
+{"text": "Email ananya.iyer@example.com for updates", "entities": [{"entity": "EMAIL", "value": "ananya.iyer@example.com"}]}
+{"text": "Email rohan_m@example.com for updates", "entities": [{"entity": "EMAIL", "value": "rohan_m@example.com"}]}
+{"text": "Email test.user+kyc@example.com for updates", "entities": [{"entity": "EMAIL", "value": "test.user+kyc@example.com"}]}
+{"text": "PAN ZQMCH2673H and Aadhaar 935379907515 attached", "entities": [{"entity": "IN_PAN", "value": "ZQMCH2673H"}, {"entity": "IN_AADHAAR", "value": "935379907515"}]}
+{"text": "PAN ******877U on file", "entities": []}
+{"text": "Aadhaar XXXX XXXX 4655", "entities": []}
+{"text": "card ending 1111", "entities": []}
+{"text": "Reference REC-001 created", "entities": []}
+{"text": "Screening SCR-0001 and SCR-0002", "entities": []}
+{"text": "Application APL-001 for APP-001", "entities": []}
+{"text": "Income band ₹10–25 L, bill Rs 1,240.00", "entities": []}
+{"text": "Policy v3: MEDIUM from 40, HIGH from 70", "entities": []}
+{"text": "Pincode 600020, Chennai", "entities": []}
+{"text": "Date of birth 1994-03-12", "entities": []}
+{"text": "ckyc_no 50000012345678 found", "entities": []}
+{"text": "Token APR-001-01 issued", "entities": []}
+{"text": "phone ending 4321", "entities": []}
+{"text": "email not repeated", "entities": []}
+{"text": "Score 22, tier LOW", "entities": []}
+{"text": "Reference number 363726516761", "entities": []}
+{"text": "Order 422029729975", "entities": []}
+{"text": "Account 12345678901 opened", "entities": []}
+{"text": "Amount 4111111111111112 is not a card", "entities": []}

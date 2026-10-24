@@ -1,0 +1,59 @@
+{
+  "name": "create_customer_record",
+  "description": "Create the customer record in core banking. Irreversible and approval-gated: needs the approval token issued by the approver step for this application.",
+  "x-agent": "supervisor",
+  "x-tool-class": "irreversible",
+  "x-fault-modes": [
+    "duplicate record"
+  ],
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "application_id": {
+        "type": "string",
+        "pattern": "^APL-[0-9A-Za-z]+$"
+      },
+      "approval_token": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64
+      }
+    },
+    "required": [
+      "application_id",
+      "approval_token"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "oneOf": [
+      {
+        "type": "object",
+        "properties": {
+          "record_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "record_id"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "details": {}
+        },
+        "description": "Business or validation error"
+      }
+    ]
+  }
+}

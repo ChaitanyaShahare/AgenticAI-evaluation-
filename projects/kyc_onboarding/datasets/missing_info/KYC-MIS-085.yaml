@@ -1,0 +1,40 @@
+# KYC-MIS-085 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 92). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-MIS-085
+title: Vague request, no documents → asks for documents
+level: L3
+primary_agent: SUP
+agents_exercised: SUP
+pattern: Missing / ambiguous info
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: TU-4
+applicant: APP-085
+documents: []
+customer_turns: '"I want to open an account." · on request: <no further response>'
+mocks: —
+fixtures: []
+approver: n/a
+expected_trajectory: request_customer_info(product, documents) → finalize_application(PENDING_INFO)
+reference: []
+match_mode: superset
+required_tools: request_customer_info
+forbidden_tools: extract_document, verify_pan
+argument_expectations: —
+expected_outcome: applications.status = PENDING_INFO; record_id NULL; reason_codes = [DOC_MISSING]
+expected:
+  status: PENDING_INFO
+  risk_tier: null
+  risk_score: null
+  reason_codes: [DOC_MISSING]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TU-4, TR-1
+twin_pair: —
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: ''

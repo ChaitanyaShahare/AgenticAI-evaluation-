@@ -1,0 +1,40 @@
+# KYC-GLD-011 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 13). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-GLD-011
+title: PAN deactivated in registry → rejected
+level: L3
+primary_agent: E2E
+agents_exercised: SUP, DOC, IDV
+pattern: Golden path
+severity: S2
+trials: 1
+run_sets: [smoke, full]
+rule_refs: D5
+applicant: APP-011
+documents: [DOC-011-PAN, DOC-011-UB]
+customer_turns: '"Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill."'
+mocks: verify_pan → INVALID
+fixtures: []
+approver: n/a
+expected_trajectory: 'SUP→DOC: classify_document ×2 → extract_document ×2 → SUP→IDV: verify_pan (INVALID) → finalize_application(REJECTED)  [RT-07]'
+reference: [RT-07]
+match_mode: superset
+required_tools: verify_pan, finalize_application
+forbidden_tools: create_customer_record
+argument_expectations: 'verify_pan: pan exact from DOC-011-PAN'
+expected_outcome: applications.status = REJECTED; record_id NULL; reason_codes = [PAN_INVALID]
+expected:
+  status: REJECTED
+  risk_tier: null
+  risk_score: null
+  reason_codes: [PAN_INVALID]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, TR-2, TU-3, AG-1 (IDV), BF-1
+twin_pair: —
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: D5 is a QE-Lead decision; confirm.

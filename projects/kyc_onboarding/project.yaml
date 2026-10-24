@@ -1,0 +1,51 @@
+# KYC onboarding — project configuration (SOP §4.4).
+# Paths are relative to this folder. Modules named here are imported only when a run starts,
+# so entries for later work packages can be declared before their code exists.
+
+project: kyc_onboarding
+
+# Synthetic data (WP1: `evalkit data`)
+data:
+  seed_db: data/kyc_synthetic.sqlite
+  generator: data/generate_kyc_db.py
+  generator_args: ["--background-from", "{seed_db}"]   # keep the released background population fixed
+  checker: data/check_fixtures.py
+
+# System under test and adapter
+adapter: evalkit.adapters.langgraph_adapter:LangGraphAdapter
+entrypoint: projects.kyc_onboarding.sut.graph:build_graph
+runner: projects.kyc_onboarding.sut.run:run_case
+case_source: projects.kyc_onboarding.cases:list_cases      # loads the case YAML files below
+end_state_query: "SELECT status, risk_tier, risk_score, record_id, reason_codes_json FROM applications WHERE application_id = :application_id"
+agents_file: agents.yaml
+tools_dir: tools/specs
+
+# Evaluation inputs (WP5 / WP6)
+policies: [policies/kyc_individual_v1.yaml, policies/pii_masking.yaml]
+gates: ../../configs/gates.yaml
+
+# Test cases as YAML (WP6): one file per case in the folder of its catalogue pattern.
+# The seed database's case tables are built from these files (`evalkit data`), so a new YAML case is runnable.
+datasets:
+  Golden path: datasets/golden
+  Per-agent isolation: datasets/agent_unit
+  Boundary / policy edge: datasets/edge
+  Tool fault injection: datasets/faults
+  Adversarial / injection: datasets/adversarial
+  PII / PCI handling: datasets/pii
+  Policy-violating request: datasets/policy
+  Hand-off / routing (L2): datasets/handoff
+  Fairness pair: datasets/fairness_pairs
+  Missing / ambiguous info: datasets/missing_info
+  Multi-turn state: datasets/multi_turn
+  Paraphrase: datasets/paraphrase
+catalogue: ../../docs/requirements/KYC_Test_Case_Catalogue_v0.12.xlsx
+case_import_extras: projects.kyc_onboarding.cases:import_extras   # form updates the scripted customer supplies
+case_lookups:
+  applicant: "SELECT 1 FROM applicants WHERE applicant_id = :value"
+  document: "SELECT 1 FROM documents WHERE doc_id = :value"
+  fixture: "SELECT 1 FROM fixture_profiles WHERE profile_id = :value"
+  case_in_seed: "SELECT 1 FROM test_cases WHERE case_id = :value"
+
+# Bug-hunt lab (WP10): seeded-defect variants, run with `evalkit lab --variant LAB-n`; switches in sut/lab/defects.py
+lab_variants: ../../training/lab/variants

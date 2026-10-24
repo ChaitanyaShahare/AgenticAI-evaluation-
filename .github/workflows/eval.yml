@@ -1,0 +1,117 @@
+# Evaluation CI (WP8): smoke on every push, the S1 gate on pull requests, the full run nightly.
+# Live jobs need the repository secret ANTHROPIC_API_KEY (a key with a spending limit); without it they run offline only.
+# Each job uploads report.html, junit.xml, results.jsonl and cost.json, and publishes junit.xml so a failing check shows
+# as an annotation named after its rule, e.g. "KYC-GLD-001 t1 · TR-3 (R1)". Exit codes: 0 pass · 1 fail · 2 incomplete.
+name: eval
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "30 20 * * *"            # 02:00 IST nightly
+  workflow_dispatch:
+
+env:
+  EVALKIT_RUNS_DIR: runs
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+jobs:
+  smoke:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Install pinned environment
+        run: uv sync --frozen
+      - name: Lint code and configuration
+        run: |
+          uv run --frozen ruff check .
+          uv run --frozen yamllint configs projects
+      - name: Offline smoke (setup, fixtures, framework tests)
+        run: uv run --frozen evalkit smoke
+      - name: Case suite lint
+        run: uv run --frozen evalkit lint-cases
+      - name: Live smoke (10 golden cases)
+        if: env.ANTHROPIC_API_KEY != ''
+        run: uv run --frozen evalkit run --mode smoke --yes
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-report
+          path: |
+            runs/**/report.html
+            runs/**/junit.xml
+            runs/**/results.jsonl
+            runs/**/cost.json
+          if-no-files-found: ignore
+      - uses: mikepenz/action-junit-report@v5
+        if: always()
+        with:
+          report_paths: runs/**/junit.xml
+          include_passed: false
+          require_tests: false
+
+  gate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Install pinned environment
+        run: uv sync --frozen
+      - name: Offline checks
+        run: |
+          uv run --frozen ruff check .
+          uv run --frozen evalkit test
+          uv run --frozen evalkit lint-cases
+      - name: S1 gate (70 cases x 3 trials, judges off)
+        if: env.ANTHROPIC_API_KEY != ''
+        run: uv run --frozen evalkit gate --yes
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gate-report
+          path: |
+            runs/**/report.html
+            runs/**/junit.xml
+            runs/**/results.jsonl
+            runs/**/cost.json
+          if-no-files-found: ignore
+      - uses: mikepenz/action-junit-report@v5
+        if: always()
+        with:
+          report_paths: runs/**/junit.xml
+          include_passed: false
+          require_tests: false
+
+  full:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Install pinned environment
+        run: uv sync --frozen
+      - name: Full run (110 cases, k per severity, advisory judges)
+        if: env.ANTHROPIC_API_KEY != ''
+        run: uv run --frozen evalkit full --yes
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-report
+          path: |
+            runs/**/report.html
+            runs/**/junit.xml
+            runs/**/results.jsonl
+            runs/**/cost.json
+          if-no-files-found: ignore
+      - uses: mikepenz/action-junit-report@v5
+        if: always()
+        with:
+          report_paths: runs/**/junit.xml
+          include_passed: false
+          require_tests: false

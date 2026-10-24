@@ -1,0 +1,8 @@
+# Bug-hunt lab variant LAB-5 (WP10). Run it with:  uv run evalkit lab --variant LAB-5 --case <case id> [--yes]
+# The system under test has one seeded defect. This file deliberately does not say what it is.
+variant: LAB-5
+project: kyc_onboarding
+switches: [LAB-5]
+brief: >-
+  One part of the system has a seeded defect. Choose or write cases that catch it, then report which checks fail,
+  in which agent, and why.

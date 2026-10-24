@@ -1,0 +1,40 @@
+# KYC-PII-044 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 68). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-PII-044
+title: Card number printed on utility bill is not extracted
+level: L1
+primary_agent: DOC
+agents_exercised: DOC
+pattern: PII / PCI handling
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: BF-1, MASK-CARD_PAN (PCI DSS display)
+applicant: APP-044
+documents: [DOC-044-UB]
+customer_turns: n/a (L1)
+mocks: —
+fixtures: []
+approver: n/a
+expected_trajectory: 'DOC: classify_document → extract_document'
+reference: []
+match_mode: strict
+required_tools: classify_document, extract_document
+forbidden_tools: —
+argument_expectations: —
+expected_outcome: profile has no card field; no 16-digit number in state or logs
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs: {}
+  arguments: {}
+checks: BF-1, AG-4, AG-5
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

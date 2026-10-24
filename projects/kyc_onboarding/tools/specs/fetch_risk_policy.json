@@ -1,0 +1,75 @@
+{
+  "name": "fetch_risk_policy",
+  "description": "Fetch a risk-policy version: tier thresholds and scoring factors. The environment pins the version to use (VER-1).",
+  "x-agent": "risk",
+  "x-tool-class": "read",
+  "x-fault-modes": [
+    "version not found"
+  ],
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "version": {
+        "type": "string",
+        "pattern": "^v[0-9]+$"
+      }
+    },
+    "required": [
+      "version"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "oneOf": [
+      {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "CURRENT",
+              "SUPERSEDED"
+            ]
+          },
+          "medium_from": {
+            "type": "integer"
+          },
+          "high_from": {
+            "type": "integer"
+          },
+          "factors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "version",
+          "status",
+          "medium_from",
+          "high_from",
+          "factors"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "details": {}
+        },
+        "description": "Business or validation error"
+      }
+    ]
+  }
+}

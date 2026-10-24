@@ -1,0 +1,63 @@
+{
+  "name": "ckyc_lookup",
+  "description": "Look up an existing Central KYC record by PAN and date of birth. Non-blocking: no record or no answer is not a failure (D9).",
+  "x-agent": "identity",
+  "x-tool-class": "read",
+  "x-fault-modes": [
+    "slow response (> 10 s)"
+  ],
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "pan": {
+        "type": "string",
+        "pattern": "^[A-Z]{5}[0-9]{4}[A-Z]$",
+        "description": "10-character PAN as printed, upper case"
+      },
+      "dob": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "description": "ISO date YYYY-MM-DD"
+      }
+    },
+    "required": [
+      "pan",
+      "dob"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "oneOf": [
+      {
+        "type": "object",
+        "properties": {
+          "ckyc_no": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "ckyc_no"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "details": {}
+        },
+        "description": "Business or validation error"
+      }
+    ]
+  }
+}

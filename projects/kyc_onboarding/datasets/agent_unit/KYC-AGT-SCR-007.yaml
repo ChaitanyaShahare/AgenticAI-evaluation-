@@ -1,0 +1,48 @@
+# KYC-AGT-SCR-007 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 14). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+# expected.agent_outputs: drafted by Claude Code from expected_outcome on 23 Oct 2026; conflicts with the fixtures decided by the QE Lead.
+case_id: KYC-AGT-SCR-007
+title: Transliteration variant Mohammad vs Mohammed → hit reported
+level: L1
+primary_agent: SCR
+agents_exercised: SCR
+pattern: Per-agent isolation
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: AG-5 no_hit_cleared
+applicant: APP-007
+documents: []
+customer_turns: 'n/a (L1) — task: screen profile of APP-007'
+mocks: sanctions_screen → SAN-0001 (0.91)
+fixtures: []
+approver: n/a
+expected_trajectory: 'SCR: sanctions_screen(full_name, dob, nationality) → pep_check(full_name, dob) → write state.screening'
+reference: []
+match_mode: unordered
+required_tools: sanctions_screen, pep_check
+forbidden_tools: any tool outside SCR allow-list
+argument_expectations: full_name = 'MOHAMMAD RAFIQ', dob = 1976-04-18, nationality = IN
+expected_outcome: state.screening.any_hit = true; hits[0] = SAN-0001, score 0.91, matched_fields [name_fuzzy, dob]; lists_version
+  = SYN-2026-10
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs:
+    screening:
+      any_hit: true
+      hits.0.entry_id: SAN-0001
+      hits.0.score: 0.91
+      hits.0.matched_fields: [name_fuzzy, dob]
+      lists_version: SYN-2026-10
+  arguments: {}
+checks: AG-1, AG-2, AG-3, AG-4, AG-5, AG-6
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: Other near-match fixtures (019, 055–057, 078) span other name origins.

@@ -1,0 +1,85 @@
+{
+  "name": "verify_pan",
+  "description": "Verify a PAN against the PAN registry with the applicant's full name and date of birth. The registry decides the match; the agent never re-judges it.",
+  "x-agent": "identity",
+  "x-tool-class": "read",
+  "x-fault-modes": [
+    "timeout",
+    "HTTP 500"
+  ],
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "pan": {
+        "type": "string",
+        "pattern": "^[A-Z]{5}[0-9]{4}[A-Z]$",
+        "description": "10-character PAN as printed, upper case"
+      },
+      "full_name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 120
+      },
+      "dob": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "description": "ISO date YYYY-MM-DD"
+      }
+    },
+    "required": [
+      "pan",
+      "full_name",
+      "dob"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "oneOf": [
+      {
+        "type": "object",
+        "properties": {
+          "status": {
+            "enum": [
+              "VALID",
+              "INVALID",
+              "MISMATCH"
+            ]
+          },
+          "name_match": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "dob_match": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "name_match",
+          "dob_match"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "details": {}
+        },
+        "description": "Business or validation error"
+      }
+    ]
+  }
+}

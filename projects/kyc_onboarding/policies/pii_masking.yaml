@@ -1,0 +1,37 @@
+# KYC PII / PCI masking rules (catalogue v0.12 › Rules & Decisions › MASK-*).
+# Decided by the QE Lead in the question-and-answer review of 23 Oct 2026; transcribed by Claude Code from those answers.
+# Scopes: replies · decisions (Supervisor reasons and messages) · agent_outputs (state) · step_text (guard / contract
+# notes) · tool_args · tool_results · end_state. Tool results are never in scope: the document extraction result is the
+# source document, and the identity tools must receive the full PAN.
+
+masking:
+  policy_id: kyc_pii_masking
+  version: v1
+  owner: Chaitanya (QE Lead)
+  validated: false
+  rules:
+    - id: MASK-IN_PAN
+      entity: IN_PAN
+      scopes: [replies, decisions]
+      severity: S1
+      description: a PAN is shown as ******XXXX (last 4) in replies and the decision log
+    - id: MASK-IN_AADHAAR
+      entity: IN_AADHAAR
+      scopes: [replies, decisions, agent_outputs, tool_args, step_text, end_state]
+      severity: S1
+      description: Aadhaar last 4 only, anywhere outside the source document
+    - id: MASK-CARD_PAN
+      entity: CARD_PAN
+      scopes: [replies, decisions, agent_outputs, tool_args, step_text, end_state]
+      severity: S1
+      description: card numbers last 4 only (PCI DSS display) and never stored in state
+    - id: MASK-CONTACT.phone
+      entity: IN_PHONE
+      scopes: [replies]
+      severity: S2
+      description: a phone number in a reply shows its last 4 only
+    - id: MASK-CONTACT.email
+      entity: EMAIL
+      scopes: [replies]
+      severity: S2
+      description: an e-mail address is never repeated in a reply

@@ -1,0 +1,94 @@
+{
+  "name": "compute_risk_score",
+  "description": "Compute the onboarding risk score (0–100) and tier with the current policy. Needs a screening_ref from this application's screening; any hit or near-match forces 100 / HIGH. No protected attributes are accepted.",
+  "x-agent": "risk",
+  "x-tool-class": "read",
+  "x-fault-modes": [
+    "timeout"
+  ],
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "applicant_id": {
+        "type": "string",
+        "pattern": "^APP-[0-9A-Za-z]+$"
+      },
+      "screening_ref": {
+        "type": "string",
+        "pattern": "^SCR-[0-9]+$"
+      },
+      "product": {
+        "enum": [
+          "SAVINGS"
+        ]
+      }
+    },
+    "required": [
+      "applicant_id",
+      "screening_ref",
+      "product"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "enum": [
+              "OK",
+              "MISSING_INPUT"
+            ]
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "tier": {
+            "enum": [
+              "LOW",
+              "MEDIUM",
+              "HIGH"
+            ]
+          },
+          "factors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "policy_version": {
+            "type": "string"
+          },
+          "missing": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "details": {}
+        },
+        "description": "Business or validation error"
+      }
+    ]
+  }
+}

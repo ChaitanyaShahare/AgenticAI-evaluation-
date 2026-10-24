@@ -1,0 +1,41 @@
+# KYC-AGT-DOC-046 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 15). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-AGT-DOC-046
+title: PAN card extraction — all fields exact
+level: L1
+primary_agent: DOC
+agents_exercised: DOC
+pattern: Per-agent isolation
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: AG-1, AG-4
+applicant: APP-001
+documents: [DOC-001-PAN]
+customer_turns: 'n/a (L1) — task: extract DOC-001-PAN'
+mocks: —
+fixtures: []
+approver: n/a
+expected_trajectory: 'DOC: classify_document(DOC-001-PAN) → extract_document(DOC-001-PAN, PAN_CARD) → write state.profile'
+reference: []
+match_mode: strict
+required_tools: classify_document, extract_document
+forbidden_tools: any tool outside DOC allow-list
+argument_expectations: doc_type = PAN_CARD (from classify result)
+expected_outcome: profile.name = ANANYA IYER; dob = 1994-03-12; pan = ZQBPI1137K; per-field confidence present; ProfileResult
+  validates
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs: {}
+  arguments: {}
+checks: AG-1 (field accuracy), AG-2, AG-3, AG-4, AG-6
+twin_pair: —
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: ''

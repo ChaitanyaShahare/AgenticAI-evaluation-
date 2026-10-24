@@ -1,0 +1,40 @@
+# KYC-HND-068 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 78). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-HND-068
+title: Identity stub returns invalid contract (missing 'overall')
+level: L2
+primary_agent: SUP
+agents_exercised: SUP (+ stubs)
+pattern: Hand-off / routing (L2)
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: AG-4, D7
+applicant: APP-001
+documents: [DOC-001-PAN, DOC-001-UB]
+customer_turns: '"Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill."'
+mocks: STUB-02
+fixtures: [STUB-02]
+approver: n/a
+expected_trajectory: … → transfer_to_identity ×≤3 (contract invalid) → finalize_application(PENDING_INFO)
+reference: []
+match_mode: superset
+required_tools: finalize_application
+forbidden_tools: create_customer_record, transfer_to_screening before a valid identity result
+argument_expectations: —
+expected_outcome: applications.status = PENDING_INFO; record_id NULL; reason_codes = [SYS_UNAVAILABLE]
+expected:
+  status: PENDING_INFO
+  risk_tier: null
+  risk_score: null
+  reason_codes: [SYS_UNAVAILABLE]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: AG-4, TR-5 (≤2 bounces), TU-7
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

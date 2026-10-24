@@ -1,0 +1,42 @@
+# bfsi-agent-eval — Python dependencies
+# Python 3.12. Exact versions are pinned in uv.lock during WP1 (D2–3); the bounds below are the minimums
+# the design assumes. Install: `uv sync --frozen` (preferred) or `pip install -r requirements.txt`.
+# After install: `python -m spacy download en_core_web_lg` (Presidio NLP model, ~600 MB; needs 16 GB RAM).
+# Licences to be confirmed from package metadata before the SOP cites them.
+
+# ---------------------------------------------------------------- System under test (projects/kyc_onboarding/sut)
+langgraph>=1.0              # Explicit StateGraph for Supervisor + 4 specialists, checkpointer, interrupt() for approval
+langchain-core>=1.0         # Tool and message abstractions used by LangGraph nodes; callback events for the adapter
+langchain-anthropic>=1.0    # Claude chat models for the agents (model IDs come from configs/eval.yaml)
+anthropic                   # Direct API client: token accounting (evalkit/harness/cost.py), judge calls
+
+# ---------------------------------------------------------------- Canonical schema, configuration, contracts (evalkit/schema, evalkit/config)
+pydantic>=2.7               # Trajectory, TestCase, results and agent output contracts (extra fields forbidden)
+jsonschema>=4.21            # TU-2 / AG-3 argument validation against tools/specs/*.json
+PyYAML>=6.0.1               # project.yaml, agents.yaml, eval.yaml, gates.yaml, policies, case YAML
+python-dotenv>=1.0          # Loads ANTHROPIC_API_KEY from .env
+
+# ---------------------------------------------------------------- Evaluators (evalkit/evaluators)
+agentevals                  # TR-2 trajectory match modes (strict / unordered / subset / superset) — runs offline
+deepeval                    # Judge metrics: TaskCompletion, StepEfficiency, PlanAdherence, G-Eval rubric (advisory until κ ≥ 0.6)
+presidio-analyzer>=2.2      # BF-1 PII / PCI detection with India recognisers (IN_PAN, IN_AADHAAR) enabled via configs/pii_recognizers.yaml
+presidio-anonymizer>=2.2    # Redaction before reports are rendered (evalkit/reporting/redaction.py)
+spacy>=3.7                  # NLP engine required by Presidio
+
+# ---------------------------------------------------------------- Secondary adapter (evalkit/adapters/otel_adapter.py)
+opentelemetry-sdk>=1.25                   # In-memory span exporter for GenAI spans
+openinference-instrumentation-langchain   # LangChain / LangGraph span instrumentation; check gen_ai.* attribute names against the installed version
+
+# ---------------------------------------------------------------- Runner and reports (evalkit/harness, evalkit/reporting)
+pytest>=8.0                 # Runs the framework's own tests and emits JUnit XML
+pytest-xdist>=3.5           # Parallel trials with a worker cap (rate-limit control)
+jinja2>=3.1                 # report.html template
+
+# ---------------------------------------------------------------- Synthetic data and tester tooling (projects/kyc_onboarding/data, evalkit/datasets)
+faker>=30                   # en_IN background population (tested with 30–40.43; prefer --background-from to keep it fixed)
+openpyxl>=3.1               # Catalogue workbook → datasets/**/*.yaml import (make cases)
+
+# ---------------------------------------------------------------- Development only
+ruff                        # Lint + format (pre-commit)
+pre-commit                  # Hooks: ruff, yamllint, staged-fixture PII scan, case lint
+yamllint                    # Catches YAML syntax errors in tester-authored cases before the harness does

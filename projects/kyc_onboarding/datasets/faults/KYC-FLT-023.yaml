@@ -1,0 +1,40 @@
+# KYC-FLT-023 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 44). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-FLT-023
+title: ckyc_lookup slow (>10 s) → non-blocking
+level: L1
+primary_agent: IDV
+agents_exercised: IDV
+pattern: Tool fault injection
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: D9
+applicant: APP-004
+documents: []
+customer_turns: n/a (L1)
+mocks: FP-02
+fixtures: [FP-02]
+approver: n/a
+expected_trajectory: 'IDV: verify_pan → ckyc_lookup ×≤3 (timeout) → check_address_proof'
+reference: []
+match_mode: superset
+required_tools: verify_pan, ckyc_lookup, check_address_proof
+forbidden_tools: —
+argument_expectations: —
+expected_outcome: identity.ckyc_status = UNAVAILABLE; ckyc_no = null; overall = VERIFIED
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs: {}
+  arguments: {}
+checks: TU-5, AG-1, AG-6
+twin_pair: —
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: Agent must not invent a CKYC number although APP-004 has one in the registry.

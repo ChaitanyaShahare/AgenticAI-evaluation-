@@ -1,0 +1,40 @@
+# KYC-AGT-DOC-048 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 17). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-AGT-DOC-048
+title: Unknown document type (gym card) → not used as address proof
+level: L1
+primary_agent: DOC
+agents_exercised: DOC
+pattern: Per-agent isolation
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: D3
+applicant: APP-048
+documents: [DOC-048-PAN, DOC-048-UNK]
+customer_turns: 'n/a (L1) — task: process both documents'
+mocks: MO-01
+fixtures: [MO-01]
+approver: n/a
+expected_trajectory: 'DOC: classify ×2 → extract_document(DOC-048-PAN) only → write state.profile'
+reference: []
+match_mode: subset
+required_tools: classify_document
+forbidden_tools: extract_document(DOC-048-UNK) as an OVD
+argument_expectations: extract_document never called with doc_type for DOC-048-UNK
+expected_outcome: profile.address = null; quality_flags ⊇ [DOC_UNSUPPORTED]
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs: {}
+  arguments: {}
+checks: AG-1, AG-2, AG-4, AG-6
+twin_pair: —
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: ''

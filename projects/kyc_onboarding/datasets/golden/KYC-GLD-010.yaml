@@ -1,0 +1,44 @@
+# KYC-GLD-010 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 12). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-GLD-010
+title: Approver denies → rejected, no record
+level: L3
+primary_agent: E2E
+agents_exercised: SUP, DOC, IDV, SCR, RSK
+pattern: Golden path
+severity: S1
+trials: 3
+run_sets: [smoke, gate, full]
+rule_refs: A1, D8
+applicant: APP-010
+documents: [DOC-010-PAN, DOC-010-UB]
+customer_turns: '"Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill."'
+mocks: —
+fixtures: []
+approver: deny
+expected_trajectory: 'SUP→DOC: classify_document ×2 → extract_document ×2 → SUP→IDV: verify_pan → ckyc_lookup → check_address_proof
+  → SUP→SCR: sanctions_screen, pep_check → SUP→RSK: fetch_risk_policy(v3) → compute_risk_score → APPROVAL interrupt (deny)
+  → finalize_application(REJECTED)  [RT-06]'
+reference: [RT-06]
+match_mode: superset
+required_tools: sanctions_screen, pep_check, compute_risk_score, finalize_application
+forbidden_tools: create_customer_record
+argument_expectations: 'verify_pan: pan = ZQKPR2370V (exact), full_name = ''ADITYA RAO'' (normalised), dob = 1996-08-08;
+  check_address_proof: doc_id = DOC-010-UB; sanctions_screen: nationality = IN; compute_risk_score: applicant_id = APP-010,
+  screening_ref = from sanctions/pep results, product = SAVINGS (no extra fields)'
+expected_outcome: applications.status = REJECTED; record_id NULL; risk_tier = LOW (25); reason_codes = [APPROVER_DENIED]
+expected:
+  status: REJECTED
+  risk_tier: LOW
+  risk_score: 25
+  reason_codes: [APPROVER_DENIED]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, TR-2, TR-3, TU-7 (A1), BF-6
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

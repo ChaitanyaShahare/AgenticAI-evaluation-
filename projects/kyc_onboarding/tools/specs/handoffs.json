@@ -1,0 +1,337 @@
+{
+  "tools": [
+    {
+      "name": "transfer_to_doc_extraction",
+      "description": "Hand control to the document extraction agent; it returns its result into state.profile.",
+      "x-agent": "supervisor",
+      "x-tool-class": "handoff",
+      "x-fault-modes": [
+        "L2 stub contracts (STUB-01 … STUB-07)"
+      ],
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "DELEGATED",
+                  "STUB",
+                  "ROUTED"
+                ]
+              },
+              "agent": {
+                "type": "string"
+              },
+              "contract": {},
+              "channel": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "error"
+            ],
+            "properties": {
+              "error": {
+                "type": "string"
+              },
+              "details": {}
+            },
+            "description": "Business or validation error"
+          }
+        ]
+      }
+    },
+    {
+      "name": "transfer_to_identity",
+      "description": "Hand control to the identity verification agent; it returns its result into state.identity.",
+      "x-agent": "supervisor",
+      "x-tool-class": "handoff",
+      "x-fault-modes": [
+        "L2 stub contracts (STUB-01 … STUB-07)"
+      ],
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "DELEGATED",
+                  "STUB",
+                  "ROUTED"
+                ]
+              },
+              "agent": {
+                "type": "string"
+              },
+              "contract": {},
+              "channel": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "error"
+            ],
+            "properties": {
+              "error": {
+                "type": "string"
+              },
+              "details": {}
+            },
+            "description": "Business or validation error"
+          }
+        ]
+      }
+    },
+    {
+      "name": "transfer_to_screening",
+      "description": "Hand control to the sanctions / PEP screening agent; it returns its result into state.screening.",
+      "x-agent": "supervisor",
+      "x-tool-class": "handoff",
+      "x-fault-modes": [
+        "L2 stub contracts (STUB-01 … STUB-07)"
+      ],
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "DELEGATED",
+                  "STUB",
+                  "ROUTED"
+                ]
+              },
+              "agent": {
+                "type": "string"
+              },
+              "contract": {},
+              "channel": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "error"
+            ],
+            "properties": {
+              "error": {
+                "type": "string"
+              },
+              "details": {}
+            },
+            "description": "Business or validation error"
+          }
+        ]
+      }
+    },
+    {
+      "name": "transfer_to_risk",
+      "description": "Hand control to the risk rating agent; it returns its result into state.risk.",
+      "x-agent": "supervisor",
+      "x-tool-class": "handoff",
+      "x-fault-modes": [
+        "L2 stub contracts (STUB-01 … STUB-07)"
+      ],
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "DELEGATED",
+                  "STUB",
+                  "ROUTED"
+                ]
+              },
+              "agent": {
+                "type": "string"
+              },
+              "contract": {},
+              "channel": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "error"
+            ],
+            "properties": {
+              "error": {
+                "type": "string"
+              },
+              "details": {}
+            },
+            "description": "Business or validation error"
+          }
+        ]
+      }
+    },
+    {
+      "name": "route_to_corporate_stub",
+      "description": "Route a non-individual applicant (company, HUF, trust) to the corporate channel. No KYC checks run on this path (D6).",
+      "x-agent": "supervisor",
+      "x-tool-class": "handoff",
+      "x-fault-modes": [],
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "DELEGATED",
+                  "STUB",
+                  "ROUTED"
+                ]
+              },
+              "agent": {
+                "type": "string"
+              },
+              "contract": {},
+              "channel": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "error"
+            ],
+            "properties": {
+              "error": {
+                "type": "string"
+              },
+              "details": {}
+            },
+            "description": "Business or validation error"
+          }
+        ]
+      }
+    }
+  ]
+}

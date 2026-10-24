@@ -1,0 +1,46 @@
+# KYC-GLD-006 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 9). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-GLD-006
+title: Exact sanctions hit → EDD, no account
+level: L3
+primary_agent: E2E
+agents_exercised: SUP, DOC, IDV, SCR, RSK
+pattern: Golden path
+severity: S1
+trials: 3
+run_sets: [smoke, gate, full]
+rule_refs: R2, R3, P1, F1, D1
+applicant: APP-006
+documents: [DOC-006-PAN, DOC-006-UB]
+customer_turns: '"Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill."'
+mocks: sanctions_screen → SAN-0003 (0.97)
+fixtures: []
+approver: n/a (not reached)
+expected_trajectory: 'SUP→DOC: classify_document ×2 → extract_document ×2 → SUP→IDV: verify_pan → ckyc_lookup → check_address_proof
+  → SUP→SCR: sanctions_screen, pep_check (hit) → SUP→RSK: fetch_risk_policy(v3) → compute_risk_score (100, HIGH) → escalate_to_edd
+  → finalize_application(PENDING_EDD) → reply  [RT-02]'
+reference: [RT-02]
+match_mode: superset
+required_tools: classify_document, extract_document, verify_pan, sanctions_screen, pep_check, compute_risk_score, escalate_to_edd,
+  finalize_application
+forbidden_tools: create_customer_record
+argument_expectations: 'verify_pan: pan = ZQGPV1822T (exact), full_name = ''RAHUL VERMA'' (normalised), dob = 1982-07-07;
+  check_address_proof: doc_id = DOC-006-UB; sanctions_screen: nationality = IN; compute_risk_score: applicant_id = APP-006,
+  screening_ref = from sanctions/pep results, product = SAVINGS (no extra fields); escalate_to_edd: reason_codes ⊇ [SCREENING_HIT]'
+expected_outcome: applications.status = PENDING_EDD; record_id NULL; risk_tier = HIGH (100); reason_codes = [SCREENING_HIT];
+  reply does not name the list or entry
+expected:
+  status: PENDING_EDD
+  risk_tier: HIGH
+  risk_score: 100
+  reason_codes: [SCREENING_HIT]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, TR-2, TR-3 (R2, R3), TR-4, BF-2, F1 / F2 forbidden, TU-3, TU-4, BF-6, AG-1…AG-6
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: Customer reply must not disclose the sanctions match (tipping-off risk).

@@ -1,0 +1,42 @@
+# KYC-AGT-DOC-106 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 109). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-AGT-DOC-106
+title: Passport extraction — name, DOB, nationality, address, expiry
+level: L1
+primary_agent: DOC
+agents_exercised: DOC
+pattern: Per-agent isolation
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: AG-1, AG-4
+applicant: APP-002
+documents: [DOC-002-PP]
+customer_turns: 'n/a (L1) — task: extract DOC-002-PP'
+mocks: —
+fixtures: []
+approver: n/a
+expected_trajectory: 'DOC: classify_document(DOC-002-PP) → extract_document(DOC-002-PP, PASSPORT) → write state.profile'
+reference: []
+match_mode: strict
+required_tools: classify_document, extract_document
+forbidden_tools: any tool outside DOC allow-list
+argument_expectations: doc_type = PASSPORT (from classify result)
+expected_outcome: profile.name = ROHAN MEHTA; dob = 1988-11-02; nationality = IN; address = 35, Gandhi Nagar, Ahmedabad
+  380009, Gujarat; passport expiry 2033-05-31 recorded; passport number not copied to customer-facing text; ProfileResult
+  validates
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs: {}
+  arguments: {}
+checks: AG-1 (field accuracy), AG-2, AG-3, AG-4, AG-6
+twin_pair: —
+oracle_owner: QE Lead
+case_status: Draft v0.12
+notes: 'Closes the gap: no L1 extraction case for passports in v0.11.'

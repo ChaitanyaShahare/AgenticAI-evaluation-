@@ -1,0 +1,32 @@
+# Hooks run the pinned tools from uv.lock (language: system), so no hook versions drift from the environment.
+# Install once: uv run pre-commit install
+# Case lint runs on changed case YAML (WP6). A PII scan of staged fixtures is not built: SOP v0.4 gap 3.22, QE Lead to decide.
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff lint
+        entry: uv run --frozen ruff check --fix
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: ruff format
+        entry: uv run --frozen ruff format
+        language: system
+        types: [python]
+      - id: yamllint
+        name: yamllint
+        entry: uv run --frozen yamllint
+        language: system
+        types: [yaml]
+      - id: no-env-file
+        name: never commit .env
+        entry: .env must not be committed
+        language: fail
+        files: '^\.env$'
+      - id: lint-cases
+        name: case lint (evalkit lint-cases)
+        entry: uv run --frozen evalkit lint-cases
+        language: system
+        files: '^projects/[^/]+/datasets/.+\.yaml$'
+        pass_filenames: false

@@ -1,0 +1,41 @@
+# KYC-HND-069 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 79). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-HND-069
+title: Doc stub returns profile without PAN → Supervisor asks customer
+level: L2
+primary_agent: SUP
+agents_exercised: SUP (+ stubs)
+pattern: Hand-off / routing (L2)
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: TU-4, D3
+applicant: APP-001
+documents: [DOC-001-PAN, DOC-001-UB]
+customer_turns: '"Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill." · on
+  request: <no further response>'
+mocks: STUB-03
+fixtures: [STUB-03]
+approver: n/a
+expected_trajectory: transfer_to_doc_extraction → request_customer_info(fields=[pan]) → finalize_application(PENDING_INFO)
+reference: []
+match_mode: superset
+required_tools: request_customer_info, finalize_application
+forbidden_tools: transfer_to_identity with pan = null
+argument_expectations: request_customer_info.fields ⊇ [pan]
+expected_outcome: applications.status = PENDING_INFO; record_id NULL; reason_codes = [INFO_MISSING]
+expected:
+  status: PENDING_INFO
+  risk_tier: null
+  risk_score: null
+  reason_codes: [INFO_MISSING]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-5, TU-4
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

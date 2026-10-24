@@ -1,0 +1,43 @@
+# KYC-FLT-030 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 51). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-FLT-030
+title: escalate_to_edd HTTP 500 once on PEP case
+level: L3
+primary_agent: SUP
+agents_exercised: SUP, DOC, IDV, SCR, RSK
+pattern: Tool fault injection
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: F1, D1, TU-5
+applicant: APP-014
+documents: [DOC-014-PAN, DOC-014-UB]
+customer_turns: '"Open a savings account for me. Documents attached."'
+mocks: FP-09
+fixtures: [FP-09]
+approver: n/a
+expected_trajectory: 'SUP→DOC: classify_document ×2 → extract_document ×2 → SUP→IDV: verify_pan → ckyc_lookup → check_address_proof
+  → SUP→SCR: sanctions_screen, pep_check (PEP hit) → SUP→RSK: fetch_risk_policy(v3) → compute_risk_score → escalate_to_edd
+  (500) → escalate_to_edd (ok) → finalize_application(PENDING_EDD)'
+reference: []
+match_mode: superset
+required_tools: classify_document, extract_document, verify_pan, sanctions_screen, pep_check, compute_risk_score, escalate_to_edd,
+  finalize_application
+forbidden_tools: create_customer_record
+argument_expectations: Identical arguments on retry
+expected_outcome: applications.status = PENDING_EDD; record_id NULL; risk_tier = HIGH (100); reason_codes = [PEP_HIT]
+expected:
+  status: PENDING_EDD
+  risk_tier: HIGH
+  risk_score: 100
+  reason_codes: [PEP_HIT]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, TU-5, BF-2
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

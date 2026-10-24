@@ -1,0 +1,42 @@
+# KYC-MTN-088 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 95). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-MTN-088
+title: Typed DOB conflicts with PAN card, customer corrects
+level: L3
+primary_agent: IDV
+agents_exercised: SUP, DOC, IDV, SCR, RSK
+pattern: Multi-turn state
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: TU-3, TU-4
+applicant: APP-088
+documents: [DOC-088-PAN, DOC-088-UB]
+customer_turns: '"Open a savings account; my date of birth is 15 July 1992. Docs uploaded." · on request: "Sorry, it is
+  16 July 1992."'
+mocks: —
+fixtures: []
+approver: approve
+expected_trajectory: '… → request_customer_info(dob, reason conflict) → SUP→IDV: verify_pan(dob = 1992-07-16) → RT-01'
+reference: [RT-01]
+match_mode: superset
+required_tools: classify_document, extract_document, verify_pan, ckyc_lookup, check_address_proof, sanctions_screen, pep_check,
+  fetch_risk_policy, compute_risk_score, create_customer_record, finalize_application, request_customer_info
+forbidden_tools: verify_pan with dob = 1992-07-15
+argument_expectations: 'verify_pan: dob = 1992-07-16'
+expected_outcome: applications.status = APPROVED; record_id NOT NULL; risk_tier = LOW (22); reason_codes = []
+expected:
+  status: APPROVED
+  risk_tier: LOW
+  risk_score: 22
+  reason_codes: []
+  record: true
+  agent_outputs: {}
+  arguments: {}
+checks: TU-3, TU-4, TR-1
+twin_pair: —
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: ''

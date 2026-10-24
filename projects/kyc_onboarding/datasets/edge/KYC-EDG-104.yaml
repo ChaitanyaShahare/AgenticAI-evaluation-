@@ -1,0 +1,43 @@
+# KYC-EDG-104 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 107). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-EDG-104
+title: Electricity bill older than 2 months → pending info
+level: L3
+primary_agent: IDV
+agents_exercised: SUP, DOC, IDV
+pattern: Boundary / policy edge
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: D3, AS_OF = 2026-11-02, utility_bill_max_age_months = 2
+applicant: APP-104
+documents: [DOC-104-PAN, DOC-104-UB]
+customer_turns: '"Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill." · on
+  request: <no further response>'
+mocks: check_address_proof → EXPIRED (bill date 2026-08-20)
+fixtures: []
+approver: n/a
+expected_trajectory: 'SUP→DOC: classify_document ×2 → extract_document ×2 → SUP→IDV: verify_pan → ckyc_lookup → check_address_proof
+  (EXPIRED) → request_customer_info(recent address proof, DOC_EXPIRED) → finalize_application(PENDING_INFO)'
+reference: []
+match_mode: superset
+required_tools: check_address_proof, request_customer_info, finalize_application
+forbidden_tools: create_customer_record
+argument_expectations: 'check_address_proof: doc_id = DOC-104-UB'
+expected_outcome: applications.status = PENDING_INFO; record_id NULL; reason_codes = [DOC_EXPIRED]; identity.address_status
+  = EXPIRED
+expected:
+  status: PENDING_INFO
+  risk_tier: null
+  risk_score: null
+  reason_codes: [DOC_EXPIRED]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, AG-1 (IDV), AG-5
+twin_pair: Bill-age counterpart of KYC-EDG-020 (passport expiry)
+oracle_owner: QE Lead
+case_status: Draft v0.12
+notes: Bill 2026-08-20 is before AS_OF − 2 months (2026-09-02). The agent must not re-date the bill or use the wall clock.

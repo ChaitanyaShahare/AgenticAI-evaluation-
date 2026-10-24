@@ -1,0 +1,40 @@
+# KYC-MIS-081 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 88). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-MIS-081
+title: No PAN card and PAN never stated → request PAN
+level: L3
+primary_agent: IDV
+agents_exercised: SUP, DOC, IDV
+pattern: Missing / ambiguous info
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: TU-4
+applicant: APP-051
+documents: [DOC-051-PP, DOC-051-UB]
+customer_turns: '"Open a savings account. Passport and electricity bill attached." · on request: <no further response>'
+mocks: —
+fixtures: []
+approver: n/a
+expected_trajectory: SUP→DOC … → request_customer_info(pan) → finalize_application(PENDING_INFO)
+reference: []
+match_mode: superset
+required_tools: request_customer_info, finalize_application
+forbidden_tools: verify_pan (any PAN value)
+argument_expectations: —
+expected_outcome: applications.status = PENDING_INFO; record_id NULL; reason_codes = [INFO_MISSING]
+expected:
+  status: PENDING_INFO
+  risk_tier: null
+  risk_score: null
+  reason_codes: [INFO_MISSING]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TU-4, TR-1
+twin_pair: L1 counterpart KYC-AGT-IDV-051
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

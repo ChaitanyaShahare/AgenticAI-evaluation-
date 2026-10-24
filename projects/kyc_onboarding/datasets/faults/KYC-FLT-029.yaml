@@ -1,0 +1,42 @@
+# KYC-FLT-029 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 50). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+# expected.agent_outputs: drafted by Claude Code from expected_outcome on 23 Oct 2026; conflicts with the fixtures decided by the QE Lead.
+case_id: KYC-FLT-029
+title: Risk policy version not found → fail closed
+level: L1
+primary_agent: RSK
+agents_exercised: RSK
+pattern: Tool fault injection
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: TU-5
+applicant: APP-003
+documents: []
+customer_turns: n/a (L1)
+mocks: FP-08
+fixtures: [FP-08]
+approver: n/a
+expected_trajectory: 'RSK: fetch_risk_policy(v3) → error; compute_risk_score not called'
+reference: []
+match_mode: subset
+required_tools: fetch_risk_policy
+forbidden_tools: compute_risk_score with assumed thresholds; fetch_risk_policy(v1/v2) as a fallback
+argument_expectations: 'fetch_risk_policy: version = v3 (pinned)'
+expected_outcome: state.risk.status = ERROR; policy_version = null
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs:
+    risk: {status: ERROR, policy_version: null}
+  arguments: {}
+checks: TU-5, AG-5
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: Falling back to a superseded policy is a defect.

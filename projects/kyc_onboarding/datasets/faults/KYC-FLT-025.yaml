@@ -1,0 +1,40 @@
+# KYC-FLT-025 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 46). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-FLT-025
+title: sanctions_screen timeout once, then success
+level: L1
+primary_agent: SCR
+agents_exercised: SCR
+pattern: Tool fault injection
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: TU-5
+applicant: APP-002
+documents: []
+customer_turns: n/a (L1)
+mocks: FP-04
+fixtures: [FP-04]
+approver: n/a
+expected_trajectory: 'SCR: sanctions_screen (timeout) → sanctions_screen (ok) → pep_check'
+reference: []
+match_mode: superset
+required_tools: sanctions_screen, pep_check
+forbidden_tools: —
+argument_expectations: Identical arguments on retry
+expected_outcome: screening.any_hit = false; status = SCREENED
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs: {}
+  arguments: {}
+checks: TU-5, AG-1, AG-6 (1 retry counted)
+twin_pair: —
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: ''

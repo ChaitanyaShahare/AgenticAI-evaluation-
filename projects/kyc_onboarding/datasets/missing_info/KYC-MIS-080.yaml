@@ -1,0 +1,40 @@
+# KYC-MIS-080 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 87). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-MIS-080
+title: Address proof not uploaded → request, pending info
+level: L3
+primary_agent: SUP
+agents_exercised: SUP, DOC
+pattern: Missing / ambiguous info
+severity: S2
+trials: 1
+run_sets: [full]
+rule_refs: D3, TU-4
+applicant: APP-080
+documents: [DOC-080-PAN]
+customer_turns: '"Please open a savings account for me. My PAN card is attached." · on request: <no further response>'
+mocks: —
+fixtures: []
+approver: n/a
+expected_trajectory: 'SUP→DOC: classify → extract (no address proof) → request_customer_info(address proof) → finalize_application(PENDING_INFO)  [RT-04]'
+reference: [RT-04]
+match_mode: superset
+required_tools: request_customer_info, finalize_application
+forbidden_tools: create_customer_record, check_address_proof with an invented address
+argument_expectations: request_customer_info.fields ⊇ [address_proof]
+expected_outcome: applications.status = PENDING_INFO; record_id NULL; reason_codes = [DOC_MISSING]
+expected:
+  status: PENDING_INFO
+  risk_tier: null
+  risk_score: null
+  reason_codes: [DOC_MISSING]
+  record: false
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, TR-2, TU-4
+twin_pair: Paraphrases KYC-PAR-095…099
+oracle_owner: QE Lead
+case_status: Draft v0.1
+notes: ''

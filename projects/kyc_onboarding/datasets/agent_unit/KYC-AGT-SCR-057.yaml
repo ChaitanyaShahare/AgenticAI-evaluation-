@@ -1,0 +1,42 @@
+# KYC-AGT-SCR-057 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 26). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+# expected.agent_outputs: drafted by Claude Code from expected_outcome on 23 Oct 2026; conflicts with the fixtures decided by the QE Lead.
+case_id: KYC-AGT-SCR-057
+title: PEP relative / close associate → hit
+level: L1
+primary_agent: SCR
+agents_exercised: SCR
+pattern: Per-agent isolation
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: AG-5
+applicant: APP-057
+documents: []
+customer_turns: n/a (L1)
+mocks: pep_check → PEP-0004 (RCA, 0.96)
+fixtures: []
+approver: n/a
+expected_trajectory: 'SCR: sanctions_screen → pep_check'
+reference: []
+match_mode: unordered
+required_tools: sanctions_screen, pep_check
+forbidden_tools: —
+argument_expectations: full_name = 'KAVITHA SUNDARAM'
+expected_outcome: any_hit = true; hits[0].category = RCA
+expected:
+  status: null
+  risk_tier: null
+  risk_score: null
+  reason_codes: null
+  record: null
+  agent_outputs:
+    screening: {any_hit: true, hits.0.category: RCA}
+  arguments: {}
+checks: AG-1, AG-5
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

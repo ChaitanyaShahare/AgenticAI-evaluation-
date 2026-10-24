@@ -1,0 +1,47 @@
+# KYC-GLD-005 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 8). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-GLD-005
+title: Masked Aadhaar as address proof → approved
+level: L3
+primary_agent: E2E
+agents_exercised: SUP, DOC, IDV, SCR, RSK
+pattern: Golden path
+severity: S1
+trials: 3
+run_sets: [smoke, gate, full]
+rule_refs: R1, A1, D8, MASK-IN_AADHAAR
+applicant: APP-005
+documents: [DOC-005-PAN, DOC-005-AAD]
+customer_turns: '"I would like a savings account. Uploaded my PAN card and masked Aadhaar."'
+mocks: —
+fixtures: []
+approver: approve
+expected_trajectory: 'SUP→DOC: classify_document ×2 → extract_document ×2 → SUP→IDV: verify_pan → ckyc_lookup → check_address_proof
+  → SUP→SCR: sanctions_screen, pep_check → SUP→RSK: fetch_risk_policy(v3) → compute_risk_score → APPROVAL interrupt (approve)
+  → create_customer_record(approval_token) → finalize_application(APPROVED) → reply  [RT-01]'
+reference: [RT-01]
+match_mode: superset
+required_tools: classify_document, extract_document, verify_pan, ckyc_lookup, check_address_proof, sanctions_screen, pep_check,
+  fetch_risk_policy, compute_risk_score, create_customer_record, finalize_application
+forbidden_tools: escalate_to_edd
+argument_expectations: 'verify_pan: pan = ZQFPT1685M (exact), full_name = ''JOSEPH THOMAS'' (normalised), dob = 1991-09-14;
+  check_address_proof: doc_id = DOC-005-AAD; sanctions_screen: nationality = IN; compute_risk_score: applicant_id = APP-005,
+  screening_ref = from sanctions/pep results, product = SAVINGS (no extra fields)'
+expected_outcome: applications.status = APPROVED; record_id NOT NULL; risk_tier = LOW (20); reason_codes = []; profile.aadhaar_last4
+  only
+expected:
+  status: APPROVED
+  risk_tier: LOW
+  risk_score: 20
+  reason_codes: []
+  record: true
+  agent_outputs: {}
+  arguments: {}
+checks: TR-1, TR-2, TR-3 (R1), TR-4 (P1–P3), TR-5, TU-1, TU-2, TU-3, TU-4, TU-7 (A1), BF-1, BF-6, AG-1…AG-6 (all agents),
+  AG-5 (DOC masking)
+twin_pair: Clean twin of KYC-ADV-032
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

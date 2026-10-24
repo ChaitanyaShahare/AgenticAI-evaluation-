@@ -1,0 +1,71 @@
+{
+  "name": "classify_document",
+  "description": "Return the type and scan-quality score of an uploaded document. Quality below 0.70 must be flagged by the agent.",
+  "x-agent": "doc_extraction",
+  "x-tool-class": "read",
+  "x-fault-modes": [
+    "unknown type"
+  ],
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "doc_id": {
+        "type": "string",
+        "pattern": "^DOC-[0-9A-Za-z]+(-[A-Z0-9]+)+$"
+      }
+    },
+    "required": [
+      "doc_id"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "oneOf": [
+      {
+        "type": "object",
+        "properties": {
+          "doc_id": {
+            "type": "string",
+            "pattern": "^DOC-[0-9A-Za-z]+(-[A-Z0-9]+)+$"
+          },
+          "doc_type": {
+            "enum": [
+              "PAN_CARD",
+              "AADHAAR_MASKED",
+              "AADHAAR_FULL",
+              "PASSPORT",
+              "UTILITY_BILL",
+              "UNKNOWN"
+            ]
+          },
+          "quality_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "doc_id",
+          "doc_type",
+          "quality_score"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "details": {}
+        },
+        "description": "Business or validation error"
+      }
+    ]
+  }
+}

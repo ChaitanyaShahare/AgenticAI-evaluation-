@@ -1,0 +1,8 @@
+# yamllint rules for configuration and tester-written case YAML: catch real mistakes, not style.
+extends: default
+rules:
+  line-length: {max: 160}
+  document-start: disable
+  comments: {min-spaces-from-content: 1}
+  truthy: {check-keys: false}
+  brackets: {max-spaces-inside: 1}

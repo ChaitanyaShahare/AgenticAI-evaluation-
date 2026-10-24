@@ -1,0 +1,17 @@
+{
+  "id": "RT-09",
+  "name": "Rejected – corporate stub",
+  "tools": [
+    "route_to_corporate_stub",
+    "finalize_application"
+  ],
+  "end_state": "REJECTED",
+  "default_match_mode": "strict; no specialist hand-offs",
+  "used_by": [
+    "KYC-HND-067"
+  ],
+  "source": "KYC_Test_Case_Catalogue_v0.12.xlsx › Reference Trajectories",
+  "source_text": "route_to_corporate_stub → finalize_application(REJECTED, OUT_OF_SCOPE_CUSTOMER_TYPE) → reply",
+  "expansion": "Written out in full; strict mode, no specialist hand-offs.",
+  "reviewed_by": "Chaitanya (QE Lead), 23 Oct 2026 — accepted as drafted"
+}

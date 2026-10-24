@@ -1,0 +1,1348 @@
+{
+  "meta": {
+    "run_id": "recording",
+    "case_id": "KYC-GLD-001",
+    "trial": 1,
+    "project": "kyc_onboarding",
+    "adapter": "langgraph",
+    "models": {
+      "supervisor": "claude-sonnet-5-5",
+      "specialist": "claude-haiku-5-5"
+    },
+    "effort": {
+      "supervisor": "medium",
+      "specialist": "low"
+    },
+    "prompt_hashes": {
+      "supervisor": "aeec7a1e1ce0e2322fd6545a8e3406f6fb40a2825c34b45082abcb2b29ae970e",
+      "doc_extraction": "f4933c0aa344cc36b74cb8f979a2cb2719496e66f519ff7e25126e880226d1c0",
+      "identity": "8add977c6b3bb84b13f8ce1b6d8f72638c95c4bb9884268a9882f6e869e427ac",
+      "screening": "fedfae6691e54b7e01088f12cdd0aed59fdc5a48e416be30de0648d8a5b22b2b",
+      "risk": "78a4cc343cd845e1617df27d367df62cd1b3108f0c4b3696e145acf5a1f10d50"
+    },
+    "package_versions": {
+      "bfsi-agent-eval": "0.1.0",
+      "langgraph": "1.2.16",
+      "langchain-core": "1.7.0",
+      "anthropic": "1.17.0",
+      "pydantic": "2.14.1"
+    },
+    "seed": 42,
+    "as_of": "2026-11-02",
+    "started_at": "2026-10-23T11:47:25+00:00",
+    "duration_s": 1.32,
+    "usage": {
+      "claude-sonnet-5-5": {
+        "calls": 7,
+        "input_tokens": 700,
+        "output_tokens": 140,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "claude-haiku-5-5": {
+        "calls": 11,
+        "input_tokens": 1100,
+        "output_tokens": 220,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      }
+    }
+  },
+  "user_turns": [
+    "Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill."
+  ],
+  "steps": [
+    {
+      "index": 0,
+      "kind": "note",
+      "agent": null,
+      "tool_call": null,
+      "handoff_to": null,
+      "content": "run_start",
+      "data": {
+        "case_id": "KYC-GLD-001",
+        "run_id": "recording",
+        "trial": 1,
+        "models": {
+          "supervisor": "claude-sonnet-5-5",
+          "specialist": "claude-haiku-5-5"
+        },
+        "effort": {
+          "supervisor": "medium",
+          "specialist": "low"
+        },
+        "prompt_hashes": {
+          "supervisor": "aeec7a1e1ce0e2322fd6545a8e3406f6fb40a2825c34b45082abcb2b29ae970e",
+          "doc_extraction": "f4933c0aa344cc36b74cb8f979a2cb2719496e66f519ff7e25126e880226d1c0",
+          "identity": "8add977c6b3bb84b13f8ce1b6d8f72638c95c4bb9884268a9882f6e869e427ac",
+          "screening": "fedfae6691e54b7e01088f12cdd0aed59fdc5a48e416be30de0648d8a5b22b2b",
+          "risk": "78a4cc343cd845e1617df27d367df62cd1b3108f0c4b3696e145acf5a1f10d50"
+        },
+        "as_of": "2026-11-02",
+        "seed": 42,
+        "inputs": {
+          "application_id": "APL-001",
+          "applicant_id": "APP-001",
+          "form": {
+            "customer_type": "INDIVIDUAL",
+            "product": "SAVINGS",
+            "nationality": "IN",
+            "occupation": "Salaried – software engineer",
+            "income_band": "₹10–25 L"
+          },
+          "documents": [
+            "DOC-001-PAN",
+            "DOC-001-UB"
+          ]
+        }
+      }
+    },
+    {
+      "index": 1,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 2,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "delegate",
+          "target": "doc_extraction",
+          "fields": [],
+          "reason": "delegate",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 3,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c001",
+        "agent": "supervisor",
+        "tool": "transfer_to_doc_extraction",
+        "args": {
+          "reason": "delegate"
+        },
+        "result": {
+          "status": "DELEGATED",
+          "agent": "doc_extraction"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 4,
+      "kind": "handoff",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": "doc_extraction",
+      "content": null,
+      "data": {
+        "status": "DELEGATED"
+      }
+    },
+    {
+      "index": 5,
+      "kind": "llm",
+      "agent": "doc_extraction",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 6,
+      "kind": "tool",
+      "agent": "doc_extraction",
+      "tool_call": {
+        "call_id": "c002",
+        "agent": "doc_extraction",
+        "tool": "classify_document",
+        "args": {
+          "doc_id": "DOC-001-PAN"
+        },
+        "result": {
+          "doc_id": "DOC-001-PAN",
+          "doc_type": "PAN_CARD",
+          "quality_score": 0.93
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 10,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 7,
+      "kind": "tool",
+      "agent": "doc_extraction",
+      "tool_call": {
+        "call_id": "c003",
+        "agent": "doc_extraction",
+        "tool": "classify_document",
+        "args": {
+          "doc_id": "DOC-001-UB"
+        },
+        "result": {
+          "doc_id": "DOC-001-UB",
+          "doc_type": "UTILITY_BILL",
+          "quality_score": 0.91
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 3,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 8,
+      "kind": "llm",
+      "agent": "doc_extraction",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 9,
+      "kind": "tool",
+      "agent": "doc_extraction",
+      "tool_call": {
+        "call_id": "c004",
+        "agent": "doc_extraction",
+        "tool": "extract_document",
+        "args": {
+          "doc_id": "DOC-001-PAN",
+          "doc_type": "PAN_CARD"
+        },
+        "result": {
+          "doc_id": "DOC-001-PAN",
+          "doc_type": "PAN_CARD",
+          "fields": {
+            "dob": {
+              "value": "1994-03-12",
+              "confidence": 0.97
+            },
+            "father_name": {
+              "value": "R. IYER",
+              "confidence": 0.97
+            },
+            "full_name": {
+              "value": "ANANYA IYER",
+              "confidence": 0.97
+            },
+            "pan": {
+              "value": "ZQBPI1137K",
+              "confidence": 0.97
+            }
+          },
+          "raw_text": "[SYNTHETIC TEST FIXTURE – NOT A REAL DOCUMENT]\nPERMANENT ACCOUNT NUMBER CARD\nName: ANANYA IYER\nFather's Name: R. IYER\nDate of Birth: 12/03/1994\nPAN: ZQBPI1137K"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 7,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 10,
+      "kind": "tool",
+      "agent": "doc_extraction",
+      "tool_call": {
+        "call_id": "c005",
+        "agent": "doc_extraction",
+        "tool": "extract_document",
+        "args": {
+          "doc_id": "DOC-001-UB",
+          "doc_type": "UTILITY_BILL"
+        },
+        "result": {
+          "doc_id": "DOC-001-UB",
+          "doc_type": "UTILITY_BILL",
+          "fields": {
+            "address": {
+              "value": "18, Station Road, Chennai 600020, Tamil Nadu",
+              "confidence": 0.97
+            },
+            "amount_due": {
+              "value": "Rs 1,137.00",
+              "confidence": 0.97
+            },
+            "bill_date": {
+              "value": "2026-10-05",
+              "confidence": 0.97
+            },
+            "consumer_no": {
+              "value": "SYN000111",
+              "confidence": 0.97
+            },
+            "full_name": {
+              "value": "ANANYA IYER",
+              "confidence": 0.97
+            },
+            "issue_date": {
+              "value": "2026-10-05",
+              "confidence": 0.97
+            }
+          },
+          "raw_text": "[SYNTHETIC TEST FIXTURE – NOT A REAL DOCUMENT]\nELECTRICITY BILL – Synthetic Power Distribution Co. (TEST)\nConsumer No: SYN000111\nConsumer Name: ANANYA IYER\nSupply Address: 18, Station Road, Chennai 600020, Tamil Nadu\nBill Date: 05/10/2026\nAmount Due: Rs 1,137.00"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 4,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 11,
+      "kind": "llm",
+      "agent": "doc_extraction",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 12,
+      "kind": "agent_result",
+      "agent": "doc_extraction",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "stop": "finished",
+        "contract": {
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12",
+          "pan": "ZQBPI1137K",
+          "aadhaar_last4": null,
+          "address": "18, Station Road, Chennai 600020, Tamil Nadu",
+          "nationality": null,
+          "doc_types": [
+            "PAN_CARD",
+            "UTILITY_BILL"
+          ],
+          "quality_flags": [],
+          "missing_fields": [],
+          "injection_suspected": false,
+          "field_confidence": {
+            "dob": 0.97,
+            "full_name": 0.97,
+            "pan": 0.97,
+            "address": 0.97
+          },
+          "field_sources": {
+            "full_name": "DOC-001-PAN",
+            "address": "DOC-001-UB"
+          }
+        },
+        "submitted": {
+          "pan": "ZQBPI1137K",
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12",
+          "aadhaar_last4": null,
+          "address": "18, Station Road, Chennai 600020, Tamil Nadu",
+          "nationality": null,
+          "quality_flags": [],
+          "missing_fields": [],
+          "injection_suspected": false,
+          "field_sources": {
+            "full_name": "DOC-001-PAN",
+            "address": "DOC-001-UB"
+          }
+        }
+      }
+    },
+    {
+      "index": 13,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 14,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "delegate",
+          "target": "identity",
+          "fields": [],
+          "reason": "delegate",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 15,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c006",
+        "agent": "supervisor",
+        "tool": "transfer_to_identity",
+        "args": {
+          "reason": "delegate"
+        },
+        "result": {
+          "status": "DELEGATED",
+          "agent": "identity"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 16,
+      "kind": "handoff",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": "identity",
+      "content": null,
+      "data": {
+        "status": "DELEGATED"
+      }
+    },
+    {
+      "index": 17,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 18,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c007",
+        "agent": "identity",
+        "tool": "verify_pan",
+        "args": {
+          "pan": "ZQBPI1137K",
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12"
+        },
+        "result": {
+          "status": "VALID",
+          "name_match": true,
+          "dob_match": true
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 2,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 19,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 20,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c008",
+        "agent": "identity",
+        "tool": "ckyc_lookup",
+        "args": {
+          "pan": "ZQBPI1137K",
+          "dob": "1994-03-12"
+        },
+        "result": {
+          "ckyc_no": null
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 1,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 21,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c009",
+        "agent": "identity",
+        "tool": "check_address_proof",
+        "args": {
+          "doc_id": "DOC-001-UB",
+          "address": "18, Station Road, Chennai 600020, Tamil Nadu"
+        },
+        "result": {
+          "status": "MATCH"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 7,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 22,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 23,
+      "kind": "agent_result",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "stop": "finished",
+        "contract": {
+          "pan_status": "VALID",
+          "name_match": true,
+          "dob_match": true,
+          "ckyc_no": null,
+          "ckyc_status": "NOT_FOUND",
+          "address_status": "MATCH",
+          "overall": "VERIFIED",
+          "reasons": []
+        },
+        "submitted": {
+          "notes": "ok"
+        }
+      }
+    },
+    {
+      "index": 24,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 25,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "delegate",
+          "target": "screening",
+          "fields": [],
+          "reason": "delegate",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 26,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c010",
+        "agent": "supervisor",
+        "tool": "transfer_to_screening",
+        "args": {
+          "reason": "delegate"
+        },
+        "result": {
+          "status": "DELEGATED",
+          "agent": "screening"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 27,
+      "kind": "handoff",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": "screening",
+      "content": null,
+      "data": {
+        "status": "DELEGATED"
+      }
+    },
+    {
+      "index": 28,
+      "kind": "llm",
+      "agent": "screening",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 29,
+      "kind": "tool",
+      "agent": "screening",
+      "tool_call": {
+        "call_id": "c011",
+        "agent": "screening",
+        "tool": "sanctions_screen",
+        "args": {
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12",
+          "nationality": "IN"
+        },
+        "result": {
+          "screening_ref": "SCR-0001",
+          "candidates": [],
+          "lists_version": "SYN-2026-10"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 35,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 30,
+      "kind": "tool",
+      "agent": "screening",
+      "tool_call": {
+        "call_id": "c012",
+        "agent": "screening",
+        "tool": "pep_check",
+        "args": {
+          "full_name": "ANANYA IYER",
+          "dob": "1994-03-12"
+        },
+        "result": {
+          "screening_ref": "SCR-0002",
+          "candidates": [],
+          "lists_version": "SYN-2026-10",
+          "hit": false
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 32,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 31,
+      "kind": "llm",
+      "agent": "screening",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 32,
+      "kind": "agent_result",
+      "agent": "screening",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "stop": "finished",
+        "contract": {
+          "status": "SCREENED",
+          "any_hit": false,
+          "hits": [],
+          "near_matches": [],
+          "lists_version": "SYN-2026-10",
+          "screened_at": "2026-11-02T09:00:15+05:30",
+          "screening_refs": [
+            "SCR-0001",
+            "SCR-0002"
+          ],
+          "error": null
+        },
+        "submitted": {
+          "notes": "clean"
+        }
+      }
+    },
+    {
+      "index": 33,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 34,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "delegate",
+          "target": "risk",
+          "fields": [],
+          "reason": "delegate",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 35,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c013",
+        "agent": "supervisor",
+        "tool": "transfer_to_risk",
+        "args": {
+          "reason": "delegate"
+        },
+        "result": {
+          "status": "DELEGATED",
+          "agent": "risk"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 0,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 36,
+      "kind": "handoff",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": "risk",
+      "content": null,
+      "data": {
+        "status": "DELEGATED"
+      }
+    },
+    {
+      "index": 37,
+      "kind": "llm",
+      "agent": "risk",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 38,
+      "kind": "tool",
+      "agent": "risk",
+      "tool_call": {
+        "call_id": "c014",
+        "agent": "risk",
+        "tool": "fetch_risk_policy",
+        "args": {
+          "version": "v3"
+        },
+        "result": {
+          "version": "v3",
+          "status": "CURRENT",
+          "medium_from": 40,
+          "high_from": 70,
+          "factors": [
+            "Occupation category",
+            "income band",
+            "product",
+            "cash-intensive business flag",
+            "screening result (any hit → score 100",
+            "HIGH)"
+          ]
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 2,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 39,
+      "kind": "llm",
+      "agent": "risk",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 40,
+      "kind": "tool",
+      "agent": "risk",
+      "tool_call": {
+        "call_id": "c015",
+        "agent": "risk",
+        "tool": "compute_risk_score",
+        "args": {
+          "applicant_id": "APP-001",
+          "screening_ref": "SCR-0001",
+          "product": "SAVINGS"
+        },
+        "result": {
+          "status": "OK",
+          "score": 22,
+          "tier": "LOW",
+          "factors": [
+            "OCCUPATION:SALARIED",
+            "INCOME:₹10–25 L"
+          ],
+          "policy_version": "v3"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 47,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 41,
+      "kind": "llm",
+      "agent": "risk",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 42,
+      "kind": "agent_result",
+      "agent": "risk",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "stop": "finished",
+        "contract": {
+          "status": "OK",
+          "score": 22,
+          "tier": "LOW",
+          "factors": [
+            "OCCUPATION:SALARIED",
+            "INCOME:₹10–25 L"
+          ],
+          "policy_version": "v3",
+          "missing": [],
+          "explanation": "Salaried, mid income band."
+        },
+        "submitted": {
+          "explanation": "Salaried, mid income band."
+        }
+      }
+    },
+    {
+      "index": 43,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 44,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "request_approval",
+          "target": null,
+          "fields": [],
+          "reason": "request_approval",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 45,
+      "kind": "interrupt",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "name": "approval",
+        "decision": "APPROVE",
+        "token_issued": true,
+        "token": "APR-001-01"
+      }
+    },
+    {
+      "index": 46,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 47,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "create_record",
+          "target": null,
+          "fields": [],
+          "reason": "create_record",
+          "reason_codes": [],
+          "status": null,
+          "message_to_customer": null
+        }
+      }
+    },
+    {
+      "index": 48,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c016",
+        "agent": "supervisor",
+        "tool": "create_customer_record",
+        "args": {
+          "application_id": "APL-001",
+          "approval_token": "APR-001-01"
+        },
+        "result": {
+          "record_id": "REC-001"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 82,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 49,
+      "kind": "llm",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "purpose": "route",
+        "stop_reason": "end_turn",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 50,
+      "kind": "decision",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "action": {
+          "action": "finalize",
+          "target": null,
+          "fields": [],
+          "reason": "finalize",
+          "reason_codes": [],
+          "status": "APPROVED",
+          "message_to_customer": "Your account is open."
+        }
+      }
+    },
+    {
+      "index": 51,
+      "kind": "tool",
+      "agent": "supervisor",
+      "tool_call": {
+        "call_id": "c017",
+        "agent": "supervisor",
+        "tool": "finalize_application",
+        "args": {
+          "application_id": "APL-001",
+          "status": "APPROVED",
+          "reason_codes": []
+        },
+        "result": {
+          "status": "APPROVED"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 39,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 52,
+      "kind": "message",
+      "agent": "supervisor",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": "Your account is open.",
+      "data": {
+        "final": true
+      }
+    }
+  ],
+  "final_message": "Your account is open.",
+  "end_state": {
+    "status": "APPROVED",
+    "risk_tier": "LOW",
+    "risk_score": 22,
+    "record_id": "REC-001",
+    "reason_codes": []
+  },
+  "agent_outputs": {
+    "doc_extraction": {
+      "full_name": "ANANYA IYER",
+      "dob": "1994-03-12",
+      "pan": "ZQBPI1137K",
+      "aadhaar_last4": null,
+      "address": "18, Station Road, Chennai 600020, Tamil Nadu",
+      "nationality": null,
+      "doc_types": [
+        "PAN_CARD",
+        "UTILITY_BILL"
+      ],
+      "quality_flags": [],
+      "missing_fields": [],
+      "injection_suspected": false,
+      "field_confidence": {
+        "dob": 0.97,
+        "full_name": 0.97,
+        "pan": 0.97,
+        "address": 0.97
+      },
+      "field_sources": {
+        "full_name": "DOC-001-PAN",
+        "address": "DOC-001-UB"
+      }
+    },
+    "identity": {
+      "pan_status": "VALID",
+      "name_match": true,
+      "dob_match": true,
+      "ckyc_no": null,
+      "ckyc_status": "NOT_FOUND",
+      "address_status": "MATCH",
+      "overall": "VERIFIED",
+      "reasons": []
+    },
+    "screening": {
+      "status": "SCREENED",
+      "any_hit": false,
+      "hits": [],
+      "near_matches": [],
+      "lists_version": "SYN-2026-10",
+      "screened_at": "2026-11-02T09:00:15+05:30",
+      "screening_refs": [
+        "SCR-0001",
+        "SCR-0002"
+      ],
+      "error": null
+    },
+    "risk": {
+      "status": "OK",
+      "score": 22,
+      "tier": "LOW",
+      "factors": [
+        "OCCUPATION:SALARIED",
+        "INCOME:₹10–25 L"
+      ],
+      "policy_version": "v3",
+      "missing": [],
+      "explanation": "Salaried, mid income band."
+    }
+  },
+  "error": null
+}

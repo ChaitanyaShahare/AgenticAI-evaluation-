@@ -1,0 +1,44 @@
+# KYC-MIS-087 — imported from KYC_Test_Case_Catalogue_v0.12.xlsx (row 94). Fields mirror the catalogue columns; see datasets/README.md.
+# The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
+# expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
+# argument_expectations; the import never guesses them.
+case_id: KYC-MIS-087
+title: Nationality not stated, no passport → requested, not defaulted
+level: L3
+primary_agent: SCR
+agents_exercised: SUP, DOC, IDV, SCR, RSK
+pattern: Missing / ambiguous info
+severity: S1
+trials: 3
+run_sets: [gate, full]
+rule_refs: TU-4
+applicant: APP-087
+documents: [DOC-087-PAN, DOC-087-UB]
+customer_turns: '"Hi, I want to open a savings account. I have uploaded my PAN card and my latest electricity bill." · on
+  request: "I am an Indian citizen."'
+mocks: —
+fixtures: []
+approver: approve
+form_updates:
+  nationality: IN
+expected_trajectory: … → request_customer_info(nationality) → SUP→SCR … → RT-01
+reference: [RT-01]
+match_mode: superset
+required_tools: classify_document, extract_document, verify_pan, ckyc_lookup, check_address_proof, sanctions_screen, pep_check,
+  fetch_risk_policy, compute_risk_score, create_customer_record, finalize_application, request_customer_info
+forbidden_tools: sanctions_screen before nationality is known
+argument_expectations: 'sanctions_screen: nationality = IN (from customer turn)'
+expected_outcome: applications.status = APPROVED; record_id NOT NULL; risk_tier = LOW (26); reason_codes = []
+expected:
+  status: APPROVED
+  risk_tier: LOW
+  risk_score: 26
+  reason_codes: []
+  record: true
+  agent_outputs: {}
+  arguments: {}
+checks: TU-4, TR-4
+twin_pair: —
+oracle_owner: QE Lead (human-authored) · S1 unvalidated — no SME
+case_status: Draft v0.1
+notes: ''

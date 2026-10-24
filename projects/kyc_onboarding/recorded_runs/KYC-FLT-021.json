@@ -1,0 +1,384 @@
+{
+  "meta": {
+    "run_id": "recording",
+    "case_id": "KYC-FLT-021",
+    "trial": 1,
+    "project": "kyc_onboarding",
+    "adapter": "langgraph",
+    "models": {
+      "supervisor": "claude-sonnet-5-5",
+      "specialist": "claude-haiku-5-5"
+    },
+    "effort": {
+      "supervisor": "medium",
+      "specialist": "low"
+    },
+    "prompt_hashes": {
+      "supervisor": "aeec7a1e1ce0e2322fd6545a8e3406f6fb40a2825c34b45082abcb2b29ae970e",
+      "doc_extraction": "f4933c0aa344cc36b74cb8f979a2cb2719496e66f519ff7e25126e880226d1c0",
+      "identity": "8add977c6b3bb84b13f8ce1b6d8f72638c95c4bb9884268a9882f6e869e427ac",
+      "screening": "fedfae6691e54b7e01088f12cdd0aed59fdc5a48e416be30de0648d8a5b22b2b",
+      "risk": "78a4cc343cd845e1617df27d367df62cd1b3108f0c4b3696e145acf5a1f10d50"
+    },
+    "package_versions": {
+      "bfsi-agent-eval": "0.1.0",
+      "langgraph": "1.2.16",
+      "langchain-core": "1.7.0",
+      "anthropic": "1.17.0",
+      "pydantic": "2.14.1"
+    },
+    "seed": 42,
+    "as_of": "2026-11-02",
+    "started_at": "2026-10-23T11:47:26+00:00",
+    "duration_s": 0.34,
+    "usage": {
+      "claude-haiku-5-5": {
+        "calls": 5,
+        "input_tokens": 500,
+        "output_tokens": 100,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      }
+    }
+  },
+  "user_turns": [],
+  "steps": [
+    {
+      "index": 0,
+      "kind": "note",
+      "agent": null,
+      "tool_call": null,
+      "handoff_to": null,
+      "content": "run_start",
+      "data": {
+        "case_id": "KYC-FLT-021",
+        "run_id": "recording",
+        "trial": 1,
+        "models": {
+          "supervisor": "claude-sonnet-5-5",
+          "specialist": "claude-haiku-5-5"
+        },
+        "effort": {
+          "supervisor": "medium",
+          "specialist": "low"
+        },
+        "prompt_hashes": {
+          "supervisor": "aeec7a1e1ce0e2322fd6545a8e3406f6fb40a2825c34b45082abcb2b29ae970e",
+          "doc_extraction": "f4933c0aa344cc36b74cb8f979a2cb2719496e66f519ff7e25126e880226d1c0",
+          "identity": "8add977c6b3bb84b13f8ce1b6d8f72638c95c4bb9884268a9882f6e869e427ac",
+          "screening": "fedfae6691e54b7e01088f12cdd0aed59fdc5a48e416be30de0648d8a5b22b2b",
+          "risk": "78a4cc343cd845e1617df27d367df62cd1b3108f0c4b3696e145acf5a1f10d50"
+        },
+        "as_of": "2026-11-02",
+        "seed": 42,
+        "inputs": {
+          "application_id": "APL-002",
+          "applicant_id": "APP-002"
+        }
+      }
+    },
+    {
+      "index": 1,
+      "kind": "note",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": "l1_task",
+      "data": {
+        "agent": "identity",
+        "inputs": {
+          "full_name": "ROHAN MEHTA",
+          "dob": "1988-11-02",
+          "pan": "ZQCPM1274R",
+          "aadhaar_last4": null,
+          "address": "35, Gandhi Nagar, Ahmedabad 380009, Gujarat",
+          "nationality": null,
+          "doc_types": [
+            "PAN_CARD",
+            "PASSPORT"
+          ],
+          "quality_flags": [],
+          "missing_fields": [],
+          "injection_suspected": false,
+          "field_confidence": {},
+          "field_sources": {
+            "full_name": "DOC-002-PAN",
+            "address": "DOC-002-PP"
+          }
+        }
+      }
+    },
+    {
+      "index": 2,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 3,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c001",
+        "agent": "identity",
+        "tool": "verify_pan",
+        "args": {
+          "pan": "ZQCPM1274R",
+          "full_name": "ROHAN MEHTA",
+          "dob": "1988-11-02"
+        },
+        "result": null,
+        "status": "timeout",
+        "attempt": 1,
+        "latency_ms": 10000,
+        "fault_injected": "FP-01:TIMEOUT"
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 4,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 5,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c002",
+        "agent": "identity",
+        "tool": "verify_pan",
+        "args": {
+          "pan": "ZQCPM1274R",
+          "full_name": "ROHAN MEHTA",
+          "dob": "1988-11-02"
+        },
+        "result": {
+          "error": "INTERNAL_ERROR",
+          "http_status": 500
+        },
+        "status": "error",
+        "attempt": 2,
+        "latency_ms": 0,
+        "fault_injected": "FP-01:HTTP_500"
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 6,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 7,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c003",
+        "agent": "identity",
+        "tool": "verify_pan",
+        "args": {
+          "pan": "ZQCPM1274R",
+          "full_name": "ROHAN MEHTA",
+          "dob": "1988-11-02"
+        },
+        "result": {
+          "error": "INTERNAL_ERROR",
+          "http_status": 500
+        },
+        "status": "error",
+        "attempt": 3,
+        "latency_ms": 0,
+        "fault_injected": "FP-01:HTTP_500"
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 8,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 9,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c004",
+        "agent": "identity",
+        "tool": "ckyc_lookup",
+        "args": {
+          "pan": "ZQCPM1274R",
+          "dob": "1988-11-02"
+        },
+        "result": {
+          "ckyc_no": null
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 2,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 10,
+      "kind": "tool",
+      "agent": "identity",
+      "tool_call": {
+        "call_id": "c005",
+        "agent": "identity",
+        "tool": "check_address_proof",
+        "args": {
+          "doc_id": "DOC-002-PP",
+          "address": "35, Gandhi Nagar, Ahmedabad 380009, Gujarat"
+        },
+        "result": {
+          "status": "MATCH"
+        },
+        "status": "ok",
+        "attempt": 1,
+        "latency_ms": 6,
+        "fault_injected": null
+      },
+      "handoff_to": null,
+      "content": null,
+      "data": {}
+    },
+    {
+      "index": 11,
+      "kind": "llm",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "purpose": "react",
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 100,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "index": 12,
+      "kind": "agent_result",
+      "agent": "identity",
+      "tool_call": null,
+      "handoff_to": null,
+      "content": null,
+      "data": {
+        "stop": "finished",
+        "contract": {
+          "pan_status": "UNAVAILABLE",
+          "name_match": null,
+          "dob_match": null,
+          "ckyc_no": null,
+          "ckyc_status": "NOT_FOUND",
+          "address_status": "MATCH",
+          "overall": "UNVERIFIED",
+          "reasons": [
+            "PAN_CHECK_UNAVAILABLE"
+          ]
+        },
+        "submitted": {
+          "notes": "PAN service unavailable after 2 retries"
+        }
+      }
+    }
+  ],
+  "final_message": null,
+  "end_state": {
+    "status": "NEW",
+    "risk_tier": null,
+    "risk_score": null,
+    "record_id": null,
+    "reason_codes": []
+  },
+  "agent_outputs": {
+    "identity": {
+      "pan_status": "UNAVAILABLE",
+      "name_match": null,
+      "dob_match": null,
+      "ckyc_no": null,
+      "ckyc_status": "NOT_FOUND",
+      "address_status": "MATCH",
+      "overall": "UNVERIFIED",
+      "reasons": [
+        "PAN_CHECK_UNAVAILABLE"
+      ]
+    }
+  },
+  "error": null
+}
