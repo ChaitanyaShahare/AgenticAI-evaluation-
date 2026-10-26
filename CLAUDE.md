@@ -1,6 +1,6 @@
 # Working in this repository (for Claude Code sessions)
 
-Read README.md (layout and per-file purpose) and EXECUTION_PLAN.md (which work package owns which file) first.
+Read README.md (purpose, workflow, layout) and docs/file_reference.md (what every file is for) first.
 
 ## Rules that protect the evaluation
 - Never write or change **S1 expectations, policy YAML (`projects/*/policies/`), `configs/gates.yaml` thresholds or the lab answer key**. These are human-owned oracles. If the agent and its oracle come from the same assistant, their errors correlate and the tests pass for the wrong reason.
