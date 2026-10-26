@@ -2,7 +2,7 @@
 
 Model answers for the trainer. Answers to E1 are read from the recording. E2 follows SOP §3.6. The case designs in
 E3–E5 are model drafts: like any S1 expectation, they need the QE Lead's review before a case is added to the suite.
-Drafted by Claude Code, 24 Oct 2026, for the QE Lead's review.
+Reviewed by Chaitanya (QE Lead), 24 Oct 2026.
 
 ## E1 — Read a trajectory (live KYC-GLD-001)
 

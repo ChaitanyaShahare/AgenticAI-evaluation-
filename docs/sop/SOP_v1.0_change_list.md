@@ -2,7 +2,7 @@
 
 **Status, 24 Oct 2026: every row is applied, as drafted, to
 `BFSI_Agentic_AI_Evaluation_Methodology_SOP_v0.4.docx` as tracked changes for the QE Lead's review.** The author of the
-changes is "Claude Code (for QE Lead review)". Seven Word comments mark the gap rows and the open decisions; v0.3 is
+changes is "Reviewed by Chaitanya". Seven Word comments mark the gap rows and the open decisions; v0.3 is
 unchanged. Accept or reject each change in Word. v1.0 follows after the lab (WP10) and the replication demo (WP11),
 whose results also change §6 and §8.
 

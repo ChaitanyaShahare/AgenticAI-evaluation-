@@ -57,7 +57,8 @@ def test_reimport_is_a_no_op_and_protects_edits(tmp_path):
     shutil.copytree(KYC / "datasets", proj / "datasets")
     rep = import_catalogue(proj, PCFG, workbook=WORKBOOK)
     # files the QE Lead completed (agent outputs) are kept; every other file is exactly the import
-    completed = {p.stem for p in (proj / "datasets").rglob("*.yaml") if "drafted by Claude Code" in p.read_text(encoding="utf-8")}
+    marker = "expected.agent_outputs: reviewed by Chaitanya"
+    completed = {p.stem for p in (proj / "datasets").rglob("*.yaml") if marker in p.read_text(encoding="utf-8")}
     assert rep.written == [] and {p.stem for p in rep.kept_edits} == completed and len(rep.unchanged) == 110 - len(completed)
     assert OUTCOME_CORRECTED <= completed
     edited = proj / "datasets" / "golden" / "KYC-GLD-002.yaml"

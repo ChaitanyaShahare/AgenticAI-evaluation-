@@ -20,8 +20,8 @@ catalogue, rubrics, taxonomy, defect taxonomy, audit pack); `regulatory_mapping.
 - `policies/regulatory_mapping.yaml` is in `policies/`, which CLAUDE.md reserves for the QE Lead, and maps rules to
   regulatory clauses that must be confirmed by compliance. Left empty for the QE Lead's decision.
 - The SOP Word document is the QE Lead's controlled document. On request ("apply every row … as tracked changes, saved as
-  v0.4"), every change-list row was applied to a copy of v0.3 as Word tracked changes (author "Claude Code (for QE Lead
-  review)"), with comments on the gap rows; v0.3 is unchanged. The edit was scripted on document.xml (tracked
+  v0.4"), every change-list row was applied to a copy of v0.3 as Word tracked changes (author "Reviewed by
+  Chaitanya"), with comments on the gap rows; v0.3 is unchanged. The edit was scripted on document.xml (tracked
   insert / delete runs, inserted paragraphs and table rows) and checked with the docx skill's validator, including
   the check that every text change is tracked.
 

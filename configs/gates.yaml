@@ -1,5 +1,5 @@
-# Release gates — SOP §3.10 starting thresholds, adopted as they stand by the QE Lead on 23 Oct 2026 and copied here by
-# Claude Code. The SOP calls them proposed starting points: they are calibrated in Week 2 against the reference build
+# Release gates — SOP §3.10 starting thresholds, adopted as they stand by the QE Lead on 23 Oct 2026 and
+# reviewed by Chaitanya. The SOP calls them proposed starting points: they are calibrated in Week 2 against the reference build
 # and need the release approver's sign-off (approved_by) before they gate a release. They are not regulatory limits.
 # Schema: docs/config_reference.md › configs/gates.yaml. An unmeasured threshold makes the verdict INCOMPLETE, never PASS.
 

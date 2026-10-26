@@ -2,7 +2,7 @@
 # The expected outcome is owned by the QE Lead — S1: human-authored, unvalidated without an SME.
 # expected.agent_outputs (AG-1) and expected.arguments (TU-3) are filled by the QE Lead from expected_outcome and
 # argument_expectations; the import never guesses them.
-# expected.agent_outputs: drafted by Claude Code from expected_outcome on 23 Oct 2026; conflicts with the fixtures decided by the QE Lead.
+# expected.agent_outputs: reviewed by Chaitanya (QE Lead), 23 Oct 2026, from expected_outcome; conflicts with the fixtures decided by the QE Lead.
 case_id: KYC-AGT-RSK-105
 title: Hand-off asks for superseded policy v2 → pinned v3 used
 level: L1

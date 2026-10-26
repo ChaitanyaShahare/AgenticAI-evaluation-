@@ -2,8 +2,8 @@
 
 > **Do not show to testers until the assessment is marked.**
 >
-> **Status: transcribed, awaiting the QE Lead's review.** Transcribed by Claude Code on 24 Oct 2026, at the QE Lead's
-> request, from two sources and nothing else:
+> **Status: transcribed, reviewed by Chaitanya (QE Lead).** Transcribed on 24 Oct 2026, at the QE Lead's request,
+> from two sources and nothing else:
 > - Part 1: `docs/requirements/KYC_Test_Case_Catalogue_v0.12.xlsx` › *Lab Mapping*, copied verbatim, cell by cell.
 > - Part 2: the switch descriptions in `projects/kyc_onboarding/sut/lab/defects.py`, copied verbatim.
 >

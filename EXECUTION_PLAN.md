@@ -119,7 +119,7 @@ Each work package lists the files it codes (paths match `README.md`), how it is 
 - **Exit check:** `make data` prints "✓ fixture data is consistent"; `make smoke` runs the dummy test in CI.
 - **Blocked by:** an Anthropic API key with a spending limit, written approval to send synthetic-only data to the API, and a CI host with a secret store (§11).
 
-### WP2: Tool specs and mocks · D3–D5 (24–26 Oct) · QE Lead (Claude Code drafts, QE Lead reviews)
+### WP2: Tool specs and mocks · D3–D5 (24–26 Oct) · QE Lead (reviewed by Chaitanya)
 
 - **Tasks:**
   1. Write 14 JSON specs: 13 tools plus the hand-offs, with `additionalProperties: false`. The `compute_risk_score` spec has no protected-attribute fields.

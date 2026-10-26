@@ -1,6 +1,6 @@
 # KYC individual onboarding — policy rules (catalogue v0.12 › Rules & Decisions).
-# Decided by the QE Lead, rule by rule, in a question-and-answer review on 23 Oct 2026; transcribed into this format by
-# Claude Code from those answers only. No compliance SME yet: validated: false, so S1 results are reported "unvalidated".
+# Decided by the QE Lead, rule by rule, in a question-and-answer review on 23 Oct 2026; written in this format from those
+# answers only; reviewed by Chaitanya. No compliance SME yet: validated: false, so S1 results are reported "unvalidated".
 # Engine reference: docs/config_reference.md › Policy files. Change a rule here only with the QE Lead's decision.
 
 policy_id: kyc_individual

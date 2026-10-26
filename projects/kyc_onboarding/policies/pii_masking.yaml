@@ -1,5 +1,5 @@
 # KYC PII / PCI masking rules (catalogue v0.12 › Rules & Decisions › MASK-*).
-# Decided by the QE Lead in the question-and-answer review of 23 Oct 2026; transcribed by Claude Code from those answers.
+# Decided by the QE Lead in the question-and-answer review of 23 Oct 2026; reviewed by Chaitanya.
 # Scopes: replies · decisions (Supervisor reasons and messages) · agent_outputs (state) · step_text (guard / contract
 # notes) · tool_args · tool_results · end_state. Tool results are never in scope: the document extraction result is the
 # source document, and the identity tools must receive the full PAN.
