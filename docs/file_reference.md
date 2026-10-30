@@ -384,6 +384,7 @@ Training package for the two testers (YAML + command line only).
 | `training/lab/` | Bug-hunt lab: six seeded-defect variants run with `evalkit lab --variant LAB-n --case …`. |
 | `training/lab/answer_key/` | Restricted: answers for the lab — hide from testers until the assessment is done. |
 | `training/lab/variants/` | One YAML per variant (ID, project, switch, a neutral brief); deliberately says nothing about the defect. |
+| `training/learning_lab/` | Agent Test Explorer: mock test results, an interactive page for .NET / QA learners, and the script that generates them. |
 | `training/modules/` | Seven modules (~15 h). |
 
 | File | Purpose | Built in |
