@@ -17,7 +17,7 @@ The plan was approved first. The user chose:
 
 ## How it was done
 
-`training/learning_lab/generate_mock_results.py` derives every record from the real case YAML, the reference
+`UAT Mock results and visualisation/generate_mock_results.py` (first built in training/learning_lab/) derives every record from the real case YAML, the reference
 trajectories, the tool specs and the synthetic seed database:
 - **Statuses:** PASS cases follow the expected path. Each FAIL / WARN case gets exactly one named deviation, modelled
   on the seeded lab defects and known failure modes.

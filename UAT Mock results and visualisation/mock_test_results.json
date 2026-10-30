@@ -3,7 +3,7 @@
   "title": "KYC multi-agent system — mock test results",
   "mock": true,
   "notice": "Derived from the real case suite, reference trajectories, tool specs and synthetic seed data, but the statuses, decisions, confidences and timings are generated for learning, not measured. Not a gate result.",
-  "generated_by": "training/learning_lab/generate_mock_results.py",
+  "generated_by": "UAT Mock results and visualisation/generate_mock_results.py",
   "seed": 20261030,
   "system_under_test": "KYC onboarding assistant: Supervisor + document extraction, identity, screening and risk agents",
   "confidence_note": "The real system does not report a confidence; values here are illustrative.",

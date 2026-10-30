@@ -8,6 +8,9 @@ Repository root: evaluation framework (evalkit/) plus the KYC reference system a
 
 | File | Purpose | Built in |
 |---|---|---|
+| `LICENSE` | MIT licence. | — |
+| `SOP and Training Pack/` | Start here: SOP-AIEVAL-001 (PDF), job aids for frontend testers (PDF), KYC and HITL worked examples, and the three template-pack workbooks (T-01 … T-17). | — |
+| `UAT Mock results and visualisation/` | 125 mock test results, the interactive Agent Test Explorer page, its README and the generator script. | — |
 | `README.md` | Project overview, setup, testing lifecycle, quick start. | WP9 |
 | `requirements.txt` | Python dependencies with the reason each is needed; exact versions are pinned in uv.lock in WP1. | Exists (v0.12) |
 | `pyproject.toml` | Package metadata, Python 3.12, tool config (pytest markers, ruff), `evalkit` console script. | WP1 · D2–3 |
@@ -384,7 +387,6 @@ Training package for the two testers (YAML + command line only).
 | `training/lab/` | Bug-hunt lab: six seeded-defect variants run with `evalkit lab --variant LAB-n --case …`. |
 | `training/lab/answer_key/` | Restricted: answers for the lab — hide from testers until the assessment is done. |
 | `training/lab/variants/` | One YAML per variant (ID, project, switch, a neutral brief); deliberately says nothing about the defect. |
-| `training/learning_lab/` | Agent Test Explorer: mock test results, an interactive page for .NET / QA learners, and the script that generates them. |
 | `training/modules/` | Seven modules (~15 h). |
 
 | File | Purpose | Built in |

@@ -8,8 +8,8 @@ the tool specs and the synthetic seed database, so the data is internally consis
   from that single actual path, so the fields cannot contradict each other.
 
 Usage (from the repository root):
-    uv run --frozen python training/learning_lab/generate_mock_results.py
-It writes training/learning_lab/mock_test_results.json and refreshes the data block inside test_visualization.html.
+    uv run --frozen python "UAT Mock results and visualisation/generate_mock_results.py"
+It writes mock_test_results.json next to this script and refreshes the data block inside test_visualization.html.
 Deterministic: same inputs, same output.
 """
 
@@ -24,7 +24,7 @@ from pathlib import Path
 
 import yaml
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "projects" / "kyc_onboarding"
 OUT_DIR = Path(__file__).resolve().parent
 SEED = 20261030
@@ -1123,7 +1123,7 @@ def main() -> None:
             "mock": True,
             "notice": "Derived from the real case suite, reference trajectories, tool specs and synthetic seed data, but the "
             "statuses, decisions, confidences and timings are generated for learning, not measured. Not a gate result.",
-            "generated_by": "training/learning_lab/generate_mock_results.py",
+            "generated_by": "UAT Mock results and visualisation/generate_mock_results.py",
             "seed": SEED,
             "system_under_test": "KYC onboarding assistant: Supervisor + document extraction, identity, screening and risk agents",
             "confidence_note": "The real system does not report a confidence; values here are illustrative.",

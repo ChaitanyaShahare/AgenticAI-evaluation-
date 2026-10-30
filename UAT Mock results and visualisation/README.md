@@ -1,4 +1,4 @@
-# Learning lab: Agent Test Explorer
+# UAT mock results and visualisation: Agent Test Explorer
 
 A self-contained page that shows how a multi-agent AI system is tested, for .NET and traditional QA engineers.
 
@@ -13,4 +13,4 @@ built-in data is missing, use **Load a results file…** and pick `mock_test_res
 - The glossary is at the bottom.
 
 **Mock data.** The results are generated from the real case suite, not measured. Regenerate them with
-`uv run --frozen python training/learning_lab/generate_mock_results.py`.
+`uv run --frozen python "UAT Mock results and visualisation/generate_mock_results.py"` from the repository root.
